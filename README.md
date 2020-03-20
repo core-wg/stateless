@@ -4,7 +4,7 @@ This is the working area for the IETF [CORE Working Group](https://datatracker.i
 
 * [Editor's Copy](https://core-wg.github.io/stateless/#go.draft-ietf-core-stateless.html) [![Build Status](https://travis-ci.org/core-wg/stateless.svg?branch=master)](https://travis-ci.org/core-wg/stateless)
 * [Working Group Draft](https://tools.ietf.org/html/draft-ietf-core-stateless)
-* [Compare Editor's Copy to Working Group Draft](https://core-wg.github.io/stateless/#go.draft-ietf-core-stateless-latest.diff)
+* [Compare Editor's Copy to Working Group Draft](https://core-wg.github.io/stateless/#go.draft-ietf-core-stateless.diff)
 
 ## Building the Draft
 
