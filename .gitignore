@@ -8,6 +8,7 @@
 .refcache
 .tags
 .targets.mk
+.vs
 /*-[0-9][0-9].xml
 issues.json
 pulls.json
