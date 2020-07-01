@@ -1,0 +1,1067 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head profile="http://www.w3.org/2006/03/hcard http://dublincore.org/documents/2008/08/04/dc-html/">
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+
+  <title>Extended&#160;Tokens&#160;and&#160;Stateless&#160;Clients in&#160;the&#160;Constrained&#160;Application&#160;Protocol&#160;(CoAP) </title>
+
+  <style type="text/css" title="Xml2Rfc (sans serif)">
+  /*<![CDATA[*/
+	  a {
+	  text-decoration: none;
+	  }
+      /* info code from SantaKlauss at http://www.madaboutstyle.com/tooltip2.html */
+      a.info {
+          /* This is the key. */
+          position: relative;
+          z-index: 24;
+          text-decoration: none;
+      }
+      a.info:hover {
+          z-index: 25;
+          color: #FFF; background-color: #900;
+      }
+      a.info span { display: none; }
+      a.info:hover span.info {
+          /* The span will display just on :hover state. */
+          display: block;
+          position: absolute;
+          font-size: smaller;
+          top: 2em; left: -5em; width: 15em;
+          padding: 2px; border: 1px solid #333;
+          color: #900; background-color: #EEE;
+          text-align: left;
+      }
+	  a.smpl {
+	  color: black;
+	  }
+	  a:hover {
+	  text-decoration: underline;
+	  }
+	  a:active {
+	  text-decoration: underline;
+	  }
+	  address {
+	  margin-top: 1em;
+	  margin-left: 2em;
+	  font-style: normal;
+	  }
+	  body {
+	  color: black;
+	  font-family: verdana, helvetica, arial, sans-serif;
+	  font-size: 10pt;
+	  max-width: 55em;
+	  
+	  }
+	  cite {
+	  font-style: normal;
+	  }
+	  dd {
+	  margin-right: 2em;
+	  }
+	  dl {
+	  margin-left: 2em;
+	  }
+	
+	  ul.empty {
+	  list-style-type: none;
+	  }
+	  ul.empty li {
+	  margin-top: .5em;
+	  }
+	  dl p {
+	  margin-left: 0em;
+	  }
+	  dt {
+	  margin-top: .5em;
+	  }
+	  h1 {
+	  font-size: 14pt;
+	  line-height: 21pt;
+	  page-break-after: avoid;
+	  }
+	  h1.np {
+	  page-break-before: always;
+	  }
+	  h1 a {
+	  color: #333333;
+	  }
+	  h2 {
+	  font-size: 12pt;
+	  line-height: 15pt;
+	  page-break-after: avoid;
+	  }
+	  h3, h4, h5, h6 {
+	  font-size: 10pt;
+	  page-break-after: avoid;
+	  }
+	  h2 a, h3 a, h4 a, h5 a, h6 a {
+	  color: black;
+	  }
+	  img {
+	  margin-left: 3em;
+	  }
+	  li {
+	  margin-left: 2em;
+	  margin-right: 2em;
+	  }
+	  ol {
+	  margin-left: 2em;
+	  margin-right: 2em;
+	  }
+	  ol p {
+	  margin-left: 0em;
+	  }
+	  p {
+	  margin-left: 2em;
+	  margin-right: 2em;
+	  }
+	  pre {
+	  margin-left: 3em;
+	  background-color: lightyellow;
+	  padding: .25em;
+	  }
+	  pre.text2 {
+	  border-style: dotted;
+	  border-width: 1px;
+	  background-color: #f0f0f0;
+	  width: 69em;
+	  }
+	  pre.inline {
+	  background-color: white;
+	  padding: 0em;
+	  }
+	  pre.text {
+	  border-style: dotted;
+	  border-width: 1px;
+	  background-color: #f8f8f8;
+	  width: 69em;
+	  }
+	  pre.drawing {
+	  border-style: solid;
+	  border-width: 1px;
+	  background-color: #f8f8f8;
+	  padding: 2em;
+	  }
+	  table {
+	  margin-left: 2em;
+	  }
+	  table.tt {
+	  vertical-align: top;
+	  }
+	  table.full {
+	  border-style: outset;
+	  border-width: 1px;
+	  }
+	  table.headers {
+	  border-style: outset;
+	  border-width: 1px;
+	  }
+	  table.tt td {
+	  vertical-align: top;
+	  }
+	  table.full td {
+	  border-style: inset;
+	  border-width: 1px;
+	  }
+	  table.tt th {
+	  vertical-align: top;
+	  }
+	  table.full th {
+	  border-style: inset;
+	  border-width: 1px;
+	  }
+	  table.headers th {
+	  border-style: none none inset none;
+	  border-width: 1px;
+	  }
+	  table.left {
+	  margin-right: auto;
+	  }
+	  table.right {
+	  margin-left: auto;
+	  }
+	  table.center {
+	  margin-left: auto;
+	  margin-right: auto;
+	  }
+	  caption {
+	  caption-side: bottom;
+	  font-weight: bold;
+	  font-size: 9pt;
+	  margin-top: .5em;
+	  }
+	
+	  table.header {
+	  border-spacing: 1px;
+	  width: 95%;
+	  font-size: 10pt;
+	  color: white;
+	  }
+	  td.top {
+	  vertical-align: top;
+	  }
+	  td.topnowrap {
+	  vertical-align: top;
+	  white-space: nowrap; 
+	  }
+	  table.header td {
+	  background-color: gray;
+	  width: 50%;
+	  }
+	  table.header a {
+	  color: white;
+	  }
+	  td.reference {
+	  vertical-align: top;
+	  white-space: nowrap;
+	  padding-right: 1em;
+	  }
+	  thead {
+	  display:table-header-group;
+	  }
+	  ul.toc, ul.toc ul {
+	  list-style: none;
+	  margin-left: 1.5em;
+	  margin-right: 0em;
+	  padding-left: 0em;
+	  }
+	  ul.toc li {
+	  line-height: 150%;
+	  font-weight: bold;
+	  font-size: 10pt;
+	  margin-left: 0em;
+	  margin-right: 0em;
+	  }
+	  ul.toc li li {
+	  line-height: normal;
+	  font-weight: normal;
+	  font-size: 9pt;
+	  margin-left: 0em;
+	  margin-right: 0em;
+	  }
+	  li.excluded {
+	  font-size: 0pt;
+	  }
+	  ul p {
+	  margin-left: 0em;
+	  }
+	
+	  .comment {
+	  background-color: yellow;
+	  }
+	  .center {
+	  text-align: center;
+	  }
+	  .error {
+	  color: red;
+	  font-style: italic;
+	  font-weight: bold;
+	  }
+	  .figure {
+	  font-weight: bold;
+	  text-align: center;
+	  font-size: 9pt;
+	  }
+	  .filename {
+	  color: #333333;
+	  font-weight: bold;
+	  font-size: 12pt;
+	  line-height: 21pt;
+	  text-align: center;
+	  }
+	  .fn {
+	  font-weight: bold;
+	  }
+	  .hidden {
+	  display: none;
+	  }
+	  .left {
+	  text-align: left;
+	  }
+	  .right {
+	  text-align: right;
+	  }
+	  .title {
+	  color: #990000;
+	  font-size: 18pt;
+	  line-height: 18pt;
+	  font-weight: bold;
+	  text-align: center;
+	  margin-top: 36pt;
+	  }
+	  .vcardline {
+	  display: block;
+	  }
+	  .warning {
+	  font-size: 14pt;
+	  background-color: yellow;
+	  }
+	
+	
+	  @media print {
+	  .noprint {
+		display: none;
+	  }
+	
+	  a {
+		color: black;
+		text-decoration: none;
+	  }
+	
+	  table.header {
+		width: 90%;
+	  }
+	
+	  td.header {
+		width: 50%;
+		color: black;
+		background-color: white;
+		vertical-align: top;
+		font-size: 12pt;
+	  }
+	
+	  ul.toc a::after {
+		content: leader('.') target-counter(attr(href), page);
+	  }
+	
+	  ul.ind li li a {
+		content: target-counter(attr(href), page);
+	  }
+	
+	  .print2col {
+		column-count: 2;
+		-moz-column-count: 2;
+		column-fill: auto;
+	  }
+	  }
+	
+	  @page {
+	  @top-left {
+		   content: "Internet-Draft"; 
+	  } 
+	  @top-right {
+		   content: "December 2010"; 
+	  } 
+	  @top-center {
+		   content: "Abbreviated Title";
+	  } 
+	  @bottom-left {
+		   content: "Doe"; 
+	  } 
+	  @bottom-center {
+		   content: "Expires June 2011"; 
+	  } 
+	  @bottom-right {
+		   content: "[Page " counter(page) "]"; 
+	  } 
+	  }
+	
+	  @page:first { 
+		@top-left {
+		  content: normal;
+		}
+		@top-right {
+		  content: normal;
+		}
+		@top-center {
+		  content: normal;
+		}
+	  }
+  /*]]>*/
+  </style>
+
+  <link href="#rfc.toc" rel="Contents">
+<link href="#rfc.section.1" rel="Chapter" title="1 Introduction">
+<link href="#rfc.section.1.1" rel="Chapter" title="1.1 Terminology">
+<link href="#rfc.section.2" rel="Chapter" title="2 Extended Tokens">
+<link href="#rfc.section.2.1" rel="Chapter" title="2.1 Extended Token Length (TKL) Field">
+<link href="#rfc.section.2.2" rel="Chapter" title="2.2 Discovering Support">
+<link href="#rfc.section.2.2.1" rel="Chapter" title="2.2.1 Extended-Token-Length Capability Option">
+<link href="#rfc.section.2.2.2" rel="Chapter" title="2.2.2 Trial-and-Error">
+<link href="#rfc.section.2.3" rel="Chapter" title="2.3 Intermediaries">
+<link href="#rfc.section.3" rel="Chapter" title="3 Stateless Clients">
+<link href="#rfc.section.3.1" rel="Chapter" title="3.1 Serializing Client State">
+<link href="#rfc.section.3.2" rel="Chapter" title="3.2 Using Extended Tokens">
+<link href="#rfc.section.3.3" rel="Chapter" title="3.3 Transmitting Messages">
+<link href="#rfc.section.4" rel="Chapter" title="4 Stateless Intermediaries">
+<link href="#rfc.section.4.1" rel="Chapter" title="4.1 Observing Resources">
+<link href="#rfc.section.4.2" rel="Chapter" title="4.2 Block-Wise Transfers">
+<link href="#rfc.section.4.3" rel="Chapter" title="4.3 Gateway Timeouts">
+<link href="#rfc.section.5" rel="Chapter" title="5 Security Considerations">
+<link href="#rfc.section.5.1" rel="Chapter" title="5.1 Extended Tokens">
+<link href="#rfc.section.5.2" rel="Chapter" title="5.2 Stateless Clients and Intermediaries">
+<link href="#rfc.section.6" rel="Chapter" title="6 IANA Considerations">
+<link href="#rfc.section.6.1" rel="Chapter" title="6.1 CoAP Signaling Option Number">
+<link href="#rfc.references" rel="Chapter" title="7 References">
+<link href="#rfc.references.1" rel="Chapter" title="7.1 Normative References">
+<link href="#rfc.references.2" rel="Chapter" title="7.2 Informative References">
+<link href="#rfc.appendix.A" rel="Chapter" title="A Updated Message Formats">
+<link href="#rfc.appendix.A.1" rel="Chapter" title="A.1 CoAP over UDP">
+<link href="#rfc.appendix.A.2" rel="Chapter" title="A.2 CoAP over TCP">
+<link href="#rfc.appendix.A.3" rel="Chapter" title="A.3 CoAP over WebSockets">
+<link href="#rfc.acknowledgements" rel="Chapter">
+<link href="#rfc.authors" rel="Chapter">
+
+
+  <meta name="generator" content="xml2rfc version 2.46.0 - https://tools.ietf.org/tools/xml2rfc" />
+  <link rel="schema.dct" href="http://purl.org/dc/terms/" />
+
+  <meta name="dct.creator" content="Hartke, K." />
+  <meta name="dct.identifier" content="urn:ietf:id:draft-ietf-core-stateless-latest" />
+  <meta name="dct.issued" scheme="ISO8601" content="2020-01" />
+  <meta name="dct.abstract" content="This document provides considerations for alleviating CoAP clients and intermediaries of keeping per-request state. To facilitate this, this document additionally introduces a new, optional CoAP protocol extension for extended token lengths.   This document updates RFCs 7252 and 8323.   " />
+  <meta name="description" content="This document provides considerations for alleviating CoAP clients and intermediaries of keeping per-request state. To facilitate this, this document additionally introduces a new, optional CoAP protocol extension for extended token lengths.   This document updates RFCs 7252 and 8323.   " />
+
+</head>
+
+<body>
+
+  <table class="header">
+    <tbody>
+    
+    	<tr>
+<td class="left">CoRE Working Group</td>
+<td class="right">K. Hartke</td>
+</tr>
+<tr>
+<td class="left">Internet-Draft</td>
+<td class="right">Ericsson</td>
+</tr>
+<tr>
+<td class="left">Updates: 7252, 8323 (if approved)</td>
+<td class="right">July 1, 2020</td>
+</tr>
+<tr>
+<td class="left">Intended status: Standards Track</td>
+<td class="right"></td>
+</tr>
+<tr>
+<td class="left">Expires: January 2, 2021</td>
+<td class="right"></td>
+</tr>
+
+    	
+    </tbody>
+  </table>
+
+  <p class="title">Extended&#160;Tokens&#160;and&#160;Stateless&#160;Clients in&#160;the&#160;Constrained&#160;Application&#160;Protocol&#160;(CoAP) <br />
+  <span class="filename">draft-ietf-core-stateless-latest</span></p>
+  
+  <h1 id="rfc.abstract"><a href="#rfc.abstract">Abstract</a></h1>
+<p>This document provides considerations for alleviating CoAP clients and intermediaries of keeping per-request state. To facilitate this, this document additionally introduces a new, optional CoAP protocol extension for extended token lengths.  </p>
+<p>This document updates RFCs 7252 and 8323.  </p>
+<h1 id="rfc.status"><a href="#rfc.status">Status of This Memo</a></h1>
+<p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
+<p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at https://datatracker.ietf.org/drafts/current/.</p>
+<p>Internet-Drafts are draft documents valid for a maximum of six months and may be updated, replaced, or obsoleted by other documents at any time.  It is inappropriate to use Internet-Drafts as reference material or to cite them other than as "work in progress."</p>
+<p>This Internet-Draft will expire on January 2, 2021.</p>
+<h1 id="rfc.copyrightnotice"><a href="#rfc.copyrightnotice">Copyright Notice</a></h1>
+<p>Copyright (c) 2020 IETF Trust and the persons identified as the document authors.  All rights reserved.</p>
+<p>This document is subject to BCP 78 and the IETF Trust's Legal Provisions Relating to IETF Documents (https://trustee.ietf.org/license-info) in effect on the date of publication of this document.  Please review these documents carefully, as they describe your rights and restrictions with respect to this document.  Code Components extracted from this document must include Simplified BSD License text as described in Section 4.e of the Trust Legal Provisions and are provided without warranty as described in the Simplified BSD License.</p>
+
+  
+  <hr class="noprint" />
+  <h1 class="np" id="rfc.toc"><a href="#rfc.toc">Table of Contents</a></h1>
+  <ul class="toc">
+
+  	<li>1.   <a href="#rfc.section.1">Introduction</a>
+</li>
+<ul><li>1.1.   <a href="#rfc.section.1.1">Terminology</a>
+</li>
+</ul><li>2.   <a href="#rfc.section.2">Extended Tokens</a>
+</li>
+<ul><li>2.1.   <a href="#rfc.section.2.1">Extended Token Length (TKL) Field</a>
+</li>
+<li>2.2.   <a href="#rfc.section.2.2">Discovering Support</a>
+</li>
+<ul><li>2.2.1.   <a href="#rfc.section.2.2.1">Extended-Token-Length Capability Option</a>
+</li>
+<li>2.2.2.   <a href="#rfc.section.2.2.2">Trial-and-Error</a>
+</li>
+</ul><li>2.3.   <a href="#rfc.section.2.3">Intermediaries</a>
+</li>
+</ul><li>3.   <a href="#rfc.section.3">Stateless Clients</a>
+</li>
+<ul><li>3.1.   <a href="#rfc.section.3.1">Serializing Client State</a>
+</li>
+<li>3.2.   <a href="#rfc.section.3.2">Using Extended Tokens</a>
+</li>
+<li>3.3.   <a href="#rfc.section.3.3">Transmitting Messages</a>
+</li>
+</ul><li>4.   <a href="#rfc.section.4">Stateless Intermediaries</a>
+</li>
+<ul><li>4.1.   <a href="#rfc.section.4.1">Observing Resources</a>
+</li>
+<li>4.2.   <a href="#rfc.section.4.2">Block-Wise Transfers</a>
+</li>
+<li>4.3.   <a href="#rfc.section.4.3">Gateway Timeouts</a>
+</li>
+</ul><li>5.   <a href="#rfc.section.5">Security Considerations</a>
+</li>
+<ul><li>5.1.   <a href="#rfc.section.5.1">Extended Tokens</a>
+</li>
+<li>5.2.   <a href="#rfc.section.5.2">Stateless Clients and Intermediaries</a>
+</li>
+</ul><li>6.   <a href="#rfc.section.6">IANA Considerations</a>
+</li>
+<ul><li>6.1.   <a href="#rfc.section.6.1">CoAP Signaling Option Number</a>
+</li>
+</ul><li>7.   <a href="#rfc.references">References</a>
+</li>
+<ul><li>7.1.   <a href="#rfc.references.1">Normative References</a>
+</li>
+<li>7.2.   <a href="#rfc.references.2">Informative References</a>
+</li>
+</ul><li>Appendix A.   <a href="#rfc.appendix.A">Updated Message Formats</a>
+</li>
+<ul><li>A.1.   <a href="#rfc.appendix.A.1">CoAP over UDP</a>
+</li>
+<li>A.2.   <a href="#rfc.appendix.A.2">CoAP over TCP</a>
+</li>
+<li>A.3.   <a href="#rfc.appendix.A.3">CoAP over WebSockets</a>
+</li>
+</ul><li><a href="#rfc.acknowledgements">Acknowledgements</a>
+</li>
+<li><a href="#rfc.authors">Author's Address</a>
+</li>
+
+
+  </ul>
+
+  <h1 id="rfc.section.1">
+<a href="#rfc.section.1">1.</a> <a href="#introduction" id="introduction">Introduction</a>
+</h1>
+<p id="rfc.section.1.p.1">The Constrained Application Protocol (CoAP) <a href="#RFC7252" class="xref">[RFC7252]</a> is a RESTful application-layer protocol for <a href="#RFC7228" class="xref">constrained environments</a>. In CoAP, clients (or intermediaries in the client role) make requests to servers (or intermediaries in the server role), which satisfy the requests by returning responses.  </p>
+<p id="rfc.section.1.p.2">While a request is ongoing, a client typically needs to keep some state that it requires for processing the response when that arrives. Identification of this state is done in CoAP by means of a token, an opaque sequence of bytes chosen by the client and included in the CoAP request, and that is returned by the server verbatim in any resulting CoAP response (<a href="#stateful-exchange" class="xref">Figure 1</a>).  </p>
+<div id="rfc.figure.1"></div>
+<div id="stateful-exchange"></div>
+<pre>
++-----------------+     request with     +------------+
+|        |        |   state identifier   |            |
+|        |        |       as token       |            |
+|    .-&lt;-+-&gt;------|---------------------&gt;|------.     |
+|   _|_           |                      |      |     |
+|  /   \ stored   |                      |      |     |
+|  \___/ state    |                      |      |     |
+|    |            |                      |      |     |
+|    '-&gt;-+-&lt;------|&lt;---------------------|------'     |
+|        |        |     response with    |            |
+|        v        |   token echoed back  |            |
++-----------------+                      +------------+
+      Client                                 Server
+</pre>
+<p class="figure">Figure 1: Token as an Identifier for Request State</p>
+<p id="rfc.section.1.p.3">In some scenarios, it can be beneficial to reduce the amount of state that is stored at the client at the cost of increased message sizes. A client can opt into this by serializing (parts of) its state into the token itself and then recovering this state from the token in the response (<a href="#stateless-exchange" class="xref">Figure 2</a>).  </p>
+<div id="rfc.figure.2"></div>
+<div id="stateless-exchange"></div>
+<pre>
++-----------------+     request with     +------------+
+|        |        |   serialized state   |            |
+|        |        |       as token       |            |
+|        +--------|=====================&gt;|------.     |
+|                 |                      |      |     |
+|    look ma,     |                      |      |     |
+|    no state!    |                      |      |     |
+|                 |                      |      |     |
+|        +--------|&lt;=====================|------'     |
+|        |        |     response with    |            |
+|        v        |   token echoed back  |            |
++-----------------+                      +------------+
+      Client                                 Server
+</pre>
+<p class="figure">Figure 2: Token as Serialization of Request State</p>
+<p><a href="#stateless-clients" class="xref">Section 3</a> of this document provides considerations for clients becoming "stateless" in this way. (As those considerations will show, the term "stateless" is not entirely accurate. The clients still need to maintain per-server state and other kinds of state. So it would be more accurate to say that these clients are just avoiding per-request state.) </p>
+<p><a href="#stateless-intermediaries" class="xref">Section 4</a> of this document extends the considerations to intermediaries, which may want to avoid not only state for the requests they send but also for the requests they receive.  </p>
+<p id="rfc.section.1.p.6">Serializing state into tokens is limited by the fact that both <a href="#RFC7252" class="xref">CoAP over UDP</a> and <a href="#RFC8323" class="xref">CoAP over reliable transports</a> restrict the maximum token length to 8 bytes. To overcome this limitation, <a href="#extended-tokens" class="xref">Section 2</a> of this document first introduces a CoAP protocol extension for extended token lengths.  </p>
+<p id="rfc.section.1.p.7">While the use case (avoiding per-request state) and the mechanism (extended token lengths) presented in this document are closely related, both can be used independently of each other: Some implementations may be able to fit their state in just 8 bytes; some implementations may have other use cases for extended token lengths.  </p>
+<h1 id="rfc.section.1.1">
+<a href="#rfc.section.1.1">1.1.</a> Terminology</h1>
+<p id="rfc.section.1.1.p.1">In this document, the term "stateless" refers to an implementation strategy for a client (or intermediary in the client role) that does not require it to keep state for the individual requests it sends to a server (or intermediary in the server role). The client still needs to keep state for each server it communicates with (e.g., for token generation, message retransmission, and congestion control).  </p>
+<p id="rfc.section.1.1.p.2">The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in <a href="#RFC2119" class="xref">BCP 14</a> <a href="#RFC8174" class="xref">[RFC8174]</a> when, and only when, they appear in all capitals, as shown here.  </p>
+<h1 id="rfc.section.2">
+<a href="#rfc.section.2">2.</a> <a href="#extended-tokens" id="extended-tokens">Extended Tokens</a>
+</h1>
+<p id="rfc.section.2.p.1">This document updates the message formats defined for <a href="#RFC7252" class="xref">CoAP over UDP</a> and <a href="#RFC8323" class="xref">CoAP over TCP, TLS, and WebSockets</a> with a new definition of the TKL field.  </p>
+<h1 id="rfc.section.2.1">
+<a href="#rfc.section.2.1">2.1.</a> <a href="#tkl-field" id="tkl-field">Extended Token Length (TKL) Field</a>
+</h1>
+<p id="rfc.section.2.1.p.1">The definition of the TKL field is updated as follows: </p>
+
+<dl>
+<dt>Token Length (TKL):</dt>
+<dd style="margin-left: 8">4-bit unsigned integer. A value between 0 and 12 inclusive indicates the length of the variable-length Token field in bytes.  The other three values are reserved for special constructs: <dl>
+<dt>13:</dt>
+<dd style="margin-left: 8">An 8-bit unsigned integer precedes the Token field and indicates the length of the Token field minus 13.  </dd>
+<dt>14:</dt>
+<dd style="margin-left: 8">A 16-bit unsigned integer in network byte order precedes the Token field and indicates the length of the Token field minus 269.  </dd>
+<dt>15:</dt>
+<dd style="margin-left: 8">Reserved. This value MUST NOT be sent and MUST be processed as a message format error.  </dd>
+</dl>
+<p> </p>
+</dd>
+</dl>
+
+<p> </p>
+<p id="rfc.section.2.1.p.2">The updated message formats are illustrated in <a href="#message-formats" class="xref">Appendix A</a>.  </p>
+<p id="rfc.section.2.1.p.3">All other fields retain their definitions.  </p>
+<p id="rfc.section.2.1.p.4">The new definition of the TKL field increases the maximum token length that can be represented in a message to 65804 bytes. However, the maximum token length that sender and recipient implementations support may be shorter. For example, a constrained node of <a href="#RFC7228" class="xref">Class 1</a> might support extended token lengths only up to 32 bytes.  </p>
+<h1 id="rfc.section.2.2">
+<a href="#rfc.section.2.2">2.2.</a> <a href="#discovery" id="discovery">Discovering Support</a>
+</h1>
+<p id="rfc.section.2.2.p.1">Extended token lengths require support from server implementations.  Support can be discovered by a client implementation in one of two ways: </p>
+
+<ul>
+<li>Where Capabilities and Settings Messages (CSMs) are available, such as in CoAP over TCP, support can be discovered using the Extended-Token-Length Capability Option defined in <a href="#capability-option" class="xref">Section 2.2.1</a>.  </li>
+<li>Otherwise, such as in CoAP over UDP, support can only be discovered by trial-and-error, as described in <a href="#trial-and-error" class="xref">Section 2.2.2</a>.  </li>
+</ul>
+
+<p> </p>
+<h1 id="rfc.section.2.2.1">
+<a href="#rfc.section.2.2.1">2.2.1.</a> <a href="#capability-option" id="capability-option">Extended-Token-Length Capability Option</a>
+</h1>
+<p id="rfc.section.2.2.1.p.1">A server can use the elective Extended-Token-Length Capability Option to indicate the maximum token length it can accept in requests.  </p>
+<div id="rfc.table.1"></div>
+<div id="capability-option-definition"></div>
+<table cellpadding="3" cellspacing="0" class="tt full center">
+<caption>The Extended-Token-Length Capability Option</caption>
+<thead><tr>
+<th class="right">#</th>
+<th class="left">C</th>
+<th class="left">R</th>
+<th class="left">Applies to</th>
+<th class="left">Name</th>
+<th class="left">Format</th>
+<th class="left">Length</th>
+<th class="left">Base Value</th>
+</tr></thead>
+<tbody><tr>
+<td class="right">TBD</td>
+<td class="left"></td>
+<td class="left"></td>
+<td class="left">CSM</td>
+<td class="left">Extended-Token-Length</td>
+<td class="left">uint</td>
+<td class="left">0-3</td>
+<td class="left">8</td>
+</tr></tbody>
+</table>
+<p>C=Critical, R=Repeatable</p>
+<p id="rfc.section.2.2.1.p.2">As per Section 3 of RFC 7252, the base value (and the value used when this option is not implemented) is 8.  </p>
+<p id="rfc.section.2.2.1.p.3">The active value of the Extended-Token-Length Option is replaced each time the option is sent with a modified value. Its starting value is its base value.  </p>
+<p id="rfc.section.2.2.1.p.4">The option value MUST NOT be less than 8 or greater than 65804. If an option value less than 8 is received, the option MUST be ignored.  If an option value greater than 65804 is received, the option value MUST be set to 65804.  </p>
+<p id="rfc.section.2.2.1.p.5">Any option value greater than 8 implies support for the new definition of the TKL field specified in <a href="#tkl-field" class="xref">Section 2.1</a>.  Indication of support by a server does not oblige a client to actually make use of token lengths greater than 8.  </p>
+<p id="rfc.section.2.2.1.p.6">If a server receives a request with a token of a length greater than it indicated in its Extended-Token-Length Option, it MUST handle the request as a message format error.  </p>
+<p id="rfc.section.2.2.1.p.7">The Extended-Token-Length Capability Option does not apply to responses. The sender of a request is simply expected not to use a token of a length greater than it is willing to accept in a response.  </p>
+<h1 id="rfc.section.2.2.2">
+<a href="#rfc.section.2.2.2">2.2.2.</a> <a href="#trial-and-error" id="trial-and-error">Trial-and-Error</a>
+</h1>
+<p id="rfc.section.2.2.2.p.1">A server implementation that does not support the updated definition of the TKL field specified in <a href="#tkl-field" class="xref">Section 2.1</a> will consider a request with a TKL field value outside the range 0 to 8 a message format error and reject it (Section 3 of RFC 7252). A client can therefore determine support by sending a request with an extended token length and checking whether it is rejected by the server or not.  </p>
+<p id="rfc.section.2.2.2.p.2">In CoAP over UDP, the way a request message is rejected depends on the message type.  A Confirmable message with a message format error is rejected with a Reset message (Section 4.2 of RFC 7252). A Non-confirmable message with a message format error is either rejected with a Reset message or just silently ignored (Section 4.3 of RFC 7252). It is therefore RECOMMENDED that clients use a Confirmable message for determining support.  </p>
+<p id="rfc.section.2.2.2.p.3">As per RFC 7252, Reset messages are empty and do not contain a token; they only return the Message ID (<a href="#trial-and-error-illustration" class="xref">Figure 3</a>). They also do not contain any indication of what caused a message format error. To avoid any ambiguity, it is therefore RECOMMENDED that clients use a request that has no potential message format error other than the extended token length.  </p>
+<div id="rfc.figure.3"></div>
+<div id="trial-and-error-illustration"></div>
+<pre>
++-----------------+   request message    +------------+
+|        |        |    with extended     |            |
+|        |        |     token length     |            |
+|    .-&lt;-+-&gt;------|---------------------&gt;|------.     |
+|   _|_           |                      |      |     |
+|  /   \ stored   |                      |      |     |
+|  \___/ state    |                      |      |     |
+|    |            |                      |      |     |
+|    '-&gt;-+-&lt;------|&lt;---------------------|------'     |
+|        |        |     reset message    |            |
+|        v        |   with only message  |            |
++-----------------+    ID echoed back    +------------+
+      Client                                 Server
+</pre>
+<p class="figure">Figure 3: A Confirmable Request With an Extended Token is Rejected With a Reset Message if the Server Does Not Have Support</p>
+<p id="rfc.section.2.2.2.p.4">An example of a suitable request is a GET request in a Confirmable  message that includes only an If-None-Match option and a token of the greatest length that the client intends to use. Any response with the same token echoed back indicates that tokens up to that length are supported by the server.  </p>
+<p id="rfc.section.2.2.2.p.5">Since network addresses may change, a client SHOULD NOT assume that extended token lengths are supported by a server later than 60 minutes after receiving a response with an extended token length.  </p>
+<p id="rfc.section.2.2.2.p.6">If a server supports extended token lengths but receives a request with a token of a length it is unwilling or unable to handle, it MUST NOT reject the message, as that would imply that extended token lengths are not supported at all. Instead, if the server cannot handle the request at the time, it SHOULD return a 5.03 (Service Unavailable) response; if the server will never be able to handle (e.g., because the token is too large), it SHOULD return a 4.00 (Bad Request) response.  </p>
+<p></p>
+
+<dl>
+<dt>Design Note:</dt>
+<dd style="margin-left: 8">The requirement to return an error response when a token cannot be handled might seem somewhat contradictory, as returning the error response requires the server also to return the token it cannot handle. However, processing a request usually involves a number of steps from receiving the message to passing it to application logic.  The idea is that a server implementing this document should at least support large tokens in its first few processing steps, enough to return an error response rather than a Reset message.  </dd>
+</dl>
+
+<p> </p>
+<p></p>
+
+<dl>
+<dt>Design Note:</dt>
+<dd style="margin-left: 8">To make the trial-and-error-based discovery not too complicated, no effort is made to indicate the maximum supported token length. A client implementation would probably already choose the shortest token possible for the task (like being stateless as described in <a href="#stateless-clients" class="xref">Section 3</a>), so it probably would not be able to reduce the length any further anyway should a server indicate a lower limit.  </dd>
+</dl>
+
+<p> </p>
+<h1 id="rfc.section.2.3">
+<a href="#rfc.section.2.3">2.3.</a> <a href="#hop-by-hop" id="hop-by-hop">Intermediaries</a>
+</h1>
+<p id="rfc.section.2.3.p.1">Tokens are a hop-by-hop feature: If there are one or more intermediaries between a client and a server, every token is scoped to the exchange between a node in the client role and the node in the server role that it is immediately interacting with.  </p>
+<p id="rfc.section.2.3.p.2">When an intermediary receives a request, the only requirement is that it echoes the token back in any resulting response. There is no requirement or expectation that an intermediary passes a client's token on to a server or that an intermediary uses extended token lengths itself in its request to satisfy a request with an extended token length. Discovery needs to be performed for each hop where extended token lengths are to be used.  </p>
+<h1 id="rfc.section.3">
+<a href="#rfc.section.3">3.</a> <a href="#stateless-clients" id="stateless-clients">Stateless Clients</a>
+</h1>
+<p id="rfc.section.3.p.1">A client can be alleviated of keeping per-request state by serializing the state into a sequence of bytes and then sending those bytes as the token of the request. The server returns the token verbatim in the response to the client, which allows the client to recover the state and process the response as if it had kept the state locally.  </p>
+<p id="rfc.section.3.p.2">The format of the serialized state is generally an implementation detail of the client and opaque to the server. However, transporting client state in requests and responses has significant security and privacy implications that need to be taken into consideration by a client implementation.  There are also several other, non-obvious implications from CoAP protocol features that should be taken into consideration by a client implementation.  </p>
+<p id="rfc.section.3.p.3">The following subsections discuss some of these considerations.  </p>
+<h1 id="rfc.section.3.1">
+<a href="#rfc.section.3.1">3.1.</a> <a href="#serialized-state" id="serialized-state">Serializing Client State</a>
+</h1>
+<p id="rfc.section.3.1.p.1">Serialized state information is an attractive target for both unwanted nodes (e.g., on-path attackers) and wanted nodes (e.g., forward proxies) on the path. Therefore, a client SHOULD integrity protect the state information, unless processing a response does not modify state or cause any other significant side effects.  </p>
+<p id="rfc.section.3.1.p.2">Even when the serialized state is integrity protected, an attacker may still replay a response, making the client believe it sent the same request twice. Therefore, the client SHOULD implement replay protection (e.g., by using sequence numbers and a replay window), unless processing a response does not modify state or cause other any significant side effects. Integrity protection is REQUIRED for replay protection.  </p>
+<p id="rfc.section.3.1.p.3">If processing a response without keeping request state is sensitive to the time elapsed since sending the request, then the serialized state SHOULD include freshness information (e.g., a timestamp).  </p>
+<p id="rfc.section.3.1.p.4">Information in the serialized state may be privacy sensitive. A client SHOULD encrypt the serialized state if it contains privacy sensitive information that an attacker would not get otherwise.  </p>
+<h1 id="rfc.section.3.2">
+<a href="#rfc.section.3.2">3.2.</a> Using Extended Tokens</h1>
+<p id="rfc.section.3.2.p.1">A client that depends on support for extended token lengths (<a href="#extended-tokens" class="xref">Section 2</a>) from the server to avoid keeping request state SHOULD perform a discovery of support (<a href="#discovery" class="xref">Section 2.2</a>) before it can be stateless.  </p>
+<p id="rfc.section.3.2.p.2">This discovery MUST be performed in a stateful way, i.e., keeping state for the request (<a href="#stateful-discovery" class="xref">Figure 4</a>): If the client was stateless from the start and the server does not support extended tokens, then any error message could not be processed since the state would neither be present at the client nor returned in the Reset message (<a href="#stateless-discovery" class="xref">Figure 5</a>).  </p>
+<div id="rfc.figure.4"></div>
+<div id="stateful-discovery"></div>
+<pre>
++-----------------+    dummy request     +------------+
+|        |        |    with extended     |            |
+|        |        |        token         |            |
+|    .-&lt;-+-&gt;------|=====================&gt;|------.     |
+|   _|_           |                      |      |     |
+|  /   \ stored   |                      |      |     |
+|  \___/ state    |                      |      |     |
+|    |            |                      |      |     |
+|    '-&gt;-+-&lt;------|&lt;=====================|------'     |
+|        |        |     response with    |            |
+|        |        |    extended token    |            |
+|        |        |      echoed back     |            |
+|        |        |                      |            |
+|        |        |                      |            |
+|        |        |     request with     |            |
+|        |        |   serialized state   |            |
+|        |        |       as token       |            |
+|        +--------|=====================&gt;|------.     |
+|                 |                      |      |     |
+|    look ma,     |                      |      |     |
+|    no state!    |                      |      |     |
+|                 |                      |      |     |
+|        +--------|&lt;=====================|------'     |
+|        |        |     response with    |            |
+|        v        |   token echoed back  |            |
++-----------------+                      +------------+
+      Client                                 Server
+</pre>
+<p class="figure">Figure 4: Depending on Extended Tokens for Being Stateless First Requires a Successful Stateful Discovery of Support</p>
+<div id="rfc.figure.5"></div>
+<div id="stateless-discovery"></div>
+<pre>
++-----------------+    dummy request     +------------+
+|        |        |    with extended     |            |
+|        |        |        token         |            |
+|        +--------|=====================&gt;|------.     |
+|                 |                      |      |     |
+|                 |                      |      |     |
+|                 |                      |      |     |
+|                 |                      |      |     |
+|              ???|&lt;---------------------|------'     |
+|                 |     reset message    |            |
+|                 |   with only message  |            |
++-----------------+    ID echoed back    +------------+
+      Client                                 Server
+</pre>
+<p class="figure">Figure 5: Stateless Discovery of Support Does Not Work</p>
+<p id="rfc.section.3.2.p.3">In environments where support can be reliably discovered through some other means, the discovery of support is OPTIONAL. An example for this is the <a href="#I-D.ietf-6tisch-minimal-security" class="xref">Constrained Join Protocol (CoJP) in a 6TiSCH network</a>, where support for extended tokens is required from all relevant parties.  </p>
+<h1 id="rfc.section.3.3">
+<a href="#rfc.section.3.3">3.3.</a> Transmitting Messages</h1>
+<p id="rfc.section.3.3.p.1">In <a href="#RFC7252" class="xref">CoAP over UDP</a>, a client has the choice between Confirmable and Non-confirmable messages for requests. When using Non-confirmable messages, a client does not have to keep any message exchange state, which can help in the goal of avoiding state. When using Confirmable messages, a client needs to keep message exchange state for performing retransmissions and handling Acknowledgement and Reset messages, however. Non-confirmable messages are therefore better suited.  In any case, a client still needs to keep congestion control state, i.e., maintain state for each node it communicates with and enforce limits like NSTART.  </p>
+<p id="rfc.section.3.3.p.2">As per Section 5.2 of RFC 7252, a client must be prepared to receive a response as a piggybacked response, a separate response or Non-confirmable response, regardless of the message type used for the request. A stateless client MUST handle these response types as follows: </p>
+
+<ul>
+<li>If a piggybacked response passes the token integrity protection and freshness checks, the client processes the message as specified in RFC 7252; otherwise, it silently discards the message.  </li>
+<li>If a separate response passes the token integrity protection and freshness checks, the client processes the message as specified in RFC 7252; otherwise, it rejects the message as specified in Section 4.2 of RFC 7252.  </li>
+<li>If a Non-confirmable response passes the token integrity protection and freshness checks, the client processes the message as specified in RFC 7252; otherwise, it rejects the message as specified in Section 4.3 of RFC 7252.  </li>
+</ul>
+
+<p> </p>
+<h1 id="rfc.section.4">
+<a href="#rfc.section.4">4.</a> <a href="#stateless-intermediaries" id="stateless-intermediaries">Stateless Intermediaries</a>
+</h1>
+<p id="rfc.section.4.p.1">Tokens are a hop-by-hop feature: If a client makes a request to an intermediary, that intermediary needs to store the client's token (along with the client's transport address) while it makes its own request towards the origin server and waits for the response. When the intermediary receives the response, it looks up the client's token and transport address for the received request and sends an appropriate response to the client.  </p>
+<p id="rfc.section.4.p.2">An intermediary might want to be "stateless" not only in its role as a client but also in its role as a server, i.e., be alleviated of storing the client information for the requests it receives.  </p>
+<p id="rfc.section.4.p.3">Such an intermediary can be implemented by serializing the client information along the request state into the token towards the origin server.  When the intermediary receives the response, it can recover the client information from the token and use it to satisfy the client's request and therefore doesn't need to store it itself.  </p>
+<p id="rfc.section.4.p.4">The following subsections discuss some considerations for this approach.  </p>
+<h1 id="rfc.section.4.1">
+<a href="#rfc.section.4.1">4.1.</a> Observing Resources</h1>
+<p id="rfc.section.4.1.p.1">One drawback of the approach is that an intermediary, without keeping request state, is unable to aggregate multiple requests for the same target resource, which can significantly reduce efficiency. In particular, when clients <a href="#RFC7641" class="xref">observe</a> the same resource, aggregating requests is REQUIRED (Section 3.1 of RFC 7641). This requirement cannot be satisfied without keeping request state.  </p>
+<p id="rfc.section.4.1.p.2">Furthermore, an intermediary that does not keep track of the clients observing a resource is not able to determine whether these clients are still interested in receiving further notifications (Section 3.5 of RFC 7641) or want to cancel an observation (Section 3.6 of RFC 7641).  </p>
+<p id="rfc.section.4.1.p.3">Therefore, an intermediary MUST NOT include an Observe Option in requests it sends without keeping both the request state for the requests it sends and the client information for the requests it receives.  </p>
+<h1 id="rfc.section.4.2">
+<a href="#rfc.section.4.2">4.2.</a> Block-Wise Transfers</h1>
+<p id="rfc.section.4.2.p.1">When using <a href="#RFC7959" class="xref">block-wise transfers</a>, a server might not be able to distinguish blocks originating from different clients once they have been forwarded by an intermediary.  Intermediaries need to ensure that this does not lead to inconsistent resource state by keeping distinct block-wise request operations on the same resource apart, e.g., utilizing the <a href="#I-D.ietf-core-echo-request-tag" class="xref">Request-Tag Option</a>.  </p>
+<h1 id="rfc.section.4.3">
+<a href="#rfc.section.4.3">4.3.</a> Gateway Timeouts</h1>
+<p id="rfc.section.4.3.p.1">As per Section 5.7.1 of RFC 7252, an intermediary is REQUIRED to return a 5.04 (Gateway Timeout) response if it cannot obtain a response within a timeout. However, if an intermediary does not keep the client information for the requests it receives, it cannot return such a response. Therefore, in this case, the timeout should be set to infinite.  </p>
+<h1 id="rfc.section.5">
+<a href="#rfc.section.5">5.</a> <a href="#security" id="security">Security Considerations</a>
+</h1>
+<h1 id="rfc.section.5.1">
+<a href="#rfc.section.5.1">5.1.</a> Extended Tokens</h1>
+<p id="rfc.section.5.1.p.1">Tokens significantly larger than the 8 bytes specified in RFC 7252 have implications in particular for nodes with constrained memory size that need to be mitigated. A node in the server role supporting extended token lengths may be vulnerable to a denial-of-service when an attacker (either on-path or a malicious client) sends large tokens to fill up the memory of the node. Implementations need to be prepared to handle such messages.  </p>
+<h1 id="rfc.section.5.2">
+<a href="#rfc.section.5.2">5.2.</a> Stateless Clients and Intermediaries</h1>
+<p id="rfc.section.5.2.p.1">Transporting the state needed by a client to process a response as serialized state information in the token has several significant and non-obvious security and privacy implications that need to be mitigated; see <a href="#serialized-state" class="xref">Section 3.1</a> for recommendations.  </p>
+<p id="rfc.section.5.2.p.2">The use of encryption, integrity protection, and replay protection of serialized state is recommended in general, unless a careful analysis of any potential attacks to security and privacy is performed. AES-CCM with a 64 bit tag is recommended, combined with a sequence number and a replay window. Where encryption is not needed, HMAC-SHA-256, combined with a sequence number and a replay window, may be used.  </p>
+<p id="rfc.section.5.2.p.3">When using an encryption mode that depends on a nonce, such as AES-CCM, repeated use of the same nonce under the same key causes the cipher to fail catastrophically. If a nonce is ever used for more than one encryption operation with the same key, then the same key stream gets used to encrypt both plaintexts and the confidentiality guarantees are voided. Devices with low-entropy sources -- as is typical with constrained devices, which incidentally happen to be a natural candidate for the stateless mechanism described in this document -- need to carefully pick a nonce generation mechanism that provides the above uniqueness guarantee. Additionally, since it can be difficult to use AES-CCM securely when using statically configured keys, implementations should use <a href="#RFC4107" class="xref">automated key management</a>.  </p>
+<h1 id="rfc.section.6">
+<a href="#rfc.section.6">6.</a> IANA Considerations</h1>
+<h1 id="rfc.section.6.1">
+<a href="#rfc.section.6.1">6.1.</a> CoAP Signaling Option Number</h1>
+<p id="rfc.section.6.1.p.1">The following entries are added to the "CoAP Signaling Option Numbers" registry within the "CoRE Parameters" registry.  </p>
+<table cellpadding="3" cellspacing="0" class="tt full center">
+<thead><tr>
+<th class="left">Applies to</th>
+<th class="right">Number</th>
+<th class="left">Name</th>
+<th class="left">Reference</th>
+</tr></thead>
+<tbody><tr>
+<td class="left">7.01</td>
+<td class="right">TBD</td>
+<td class="left">Extended-Token-Length</td>
+<td class="left">[[this document]]</td>
+</tr></tbody>
+</table>
+<p id="rfc.section.6.1.p.2">[[NOTE TO RFC EDITOR: Please replace "TBD" in this section and in <a href="#capability-option-definition" class="xref">Table 1</a> with the code point assigned by IANA.]] </p>
+<h1 id="rfc.references">
+<a href="#rfc.references">7.</a> References</h1>
+<h1 id="rfc.references.1">
+<a href="#rfc.references.1">7.1.</a> Normative References</h1>
+<table><tbody>
+<tr>
+<td class="reference"><b id="RFC2119">[RFC2119]</b></td>
+<td class="top">
+<a>Bradner, S.</a>, "<a href="https://tools.ietf.org/html/rfc2119">Key words for use in RFCs to Indicate Requirement Levels</a>", BCP 14, RFC 2119, DOI 10.17487/RFC2119, March 1997.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC4107">[RFC4107]</b></td>
+<td class="top">
+<a>Bellovin, S.</a> and <a>R. Housley</a>, "<a href="https://tools.ietf.org/html/rfc4107">Guidelines for Cryptographic Key Management</a>", BCP 107, RFC 4107, DOI 10.17487/RFC4107, June 2005.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC7252">[RFC7252]</b></td>
+<td class="top">
+<a>Shelby, Z.</a>, <a>Hartke, K.</a> and <a>C. Bormann</a>, "<a href="https://tools.ietf.org/html/rfc7252">The Constrained Application Protocol (CoAP)</a>", RFC 7252, DOI 10.17487/RFC7252, June 2014.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC7641">[RFC7641]</b></td>
+<td class="top">
+<a>Hartke, K.</a>, "<a href="https://tools.ietf.org/html/rfc7641">Observing Resources in the Constrained Application Protocol (CoAP)</a>", RFC 7641, DOI 10.17487/RFC7641, September 2015.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC7959">[RFC7959]</b></td>
+<td class="top">
+<a>Bormann, C.</a> and <a>Z. Shelby</a>, "<a href="https://tools.ietf.org/html/rfc7959">Block-Wise Transfers in the Constrained Application Protocol (CoAP)</a>", RFC 7959, DOI 10.17487/RFC7959, August 2016.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC8174">[RFC8174]</b></td>
+<td class="top">
+<a>Leiba, B.</a>, "<a href="https://tools.ietf.org/html/rfc8174">Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words</a>", BCP 14, RFC 8174, DOI 10.17487/RFC8174, May 2017.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC8323">[RFC8323]</b></td>
+<td class="top">
+<a>Bormann, C.</a>, <a>Lemay, S.</a>, <a>Tschofenig, H.</a>, <a>Hartke, K.</a>, <a>Silverajan, B.</a> and <a>B. Raymor</a>, "<a href="https://tools.ietf.org/html/rfc8323">CoAP (Constrained Application Protocol) over TCP, TLS, and WebSockets</a>", RFC 8323, DOI 10.17487/RFC8323, February 2018.</td>
+</tr>
+</tbody></table>
+<h1 id="rfc.references.2">
+<a href="#rfc.references.2">7.2.</a> Informative References</h1>
+<table><tbody>
+<tr>
+<td class="reference"><b id="I-D.ietf-6tisch-minimal-security">[I-D.ietf-6tisch-minimal-security]</b></td>
+<td class="top">
+<a>Vucinic, M.</a>, <a>Simon, J.</a>, <a>Pister, K.</a> and <a>M. Richardson</a>, "<a href="https://tools.ietf.org/html/draft-ietf-6tisch-minimal-security-15">Constrained Join Protocol (CoJP) for 6TiSCH</a>", Internet-Draft draft-ietf-6tisch-minimal-security-15, December 2019.</td>
+</tr>
+<tr>
+<td class="reference"><b id="I-D.ietf-core-echo-request-tag">[I-D.ietf-core-echo-request-tag]</b></td>
+<td class="top">
+<a>Amsuess, C.</a>, <a>Mattsson, J.</a> and <a>G. Selander</a>, "<a href="https://tools.ietf.org/html/draft-ietf-core-echo-request-tag-09">CoAP: Echo, Request-Tag, and Token Processing</a>", Internet-Draft draft-ietf-core-echo-request-tag-09, March 2020.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC7228">[RFC7228]</b></td>
+<td class="top">
+<a>Bormann, C.</a>, <a>Ersue, M.</a> and <a>A. Keranen</a>, "<a href="https://tools.ietf.org/html/rfc7228">Terminology for Constrained-Node Networks</a>", RFC 7228, DOI 10.17487/RFC7228, May 2014.</td>
+</tr>
+</tbody></table>
+<h1 id="rfc.appendix.A">
+<a href="#rfc.appendix.A">Appendix A.</a> <a href="#message-formats" id="message-formats">Updated Message Formats</a>
+</h1>
+<p id="rfc.section.A.p.1">This appendix illustrates the CoAP message formats updated with the new definition of the TKL field (<a href="#extended-tokens" class="xref">Section 2</a>).  </p>
+<h1 id="rfc.appendix.A.1">
+<a href="#rfc.appendix.A.1">A.1.</a> CoAP over UDP</h1>
+<pre>
+                0   1   2   3   4   5   6   7
+              +-------+-------+---------------+
+              |       |       |               |
+              |  Ver  |   T   |      TKL      |   1 byte
+              |       |       |               |
+              +-------+-------+---------------+
+              |                               |
+              |             Code              |   1 byte
+              |                               |
+              +-------------------------------+
+              |                               |
+              |                               |
+              |                               |
+              +-         Message ID          -+   2 bytes
+              |                               |
+              |                               |
+              |                               |
+              +-------------------------------+
+              \                               \
+              /              TKL              /   0-2 bytes
+              \          (extended)           \
+              +-------------------------------+
+              \                               \
+              /             Token             /   0 or more bytes
+              \                               \
+              +-------------------------------+
+              \                               \
+              /                               /
+              \                               \
+              /            Options            /   0 or more bytes
+              \                               \
+              /                               /
+              \                               \
+              +---------------+---------------+
+              |               |               |
+              |      15       |       15      |   1 byte (if payload)
+              |               |               |
+              +---------------+---------------+
+              \                               \
+              /                               /
+              \                               \
+              /            Payload            /   0 or more bytes
+              \                               \
+              /                               /
+              \                               \
+              +-------------------------------+
+</pre>
+<h1 id="rfc.appendix.A.2">
+<a href="#rfc.appendix.A.2">A.2.</a> CoAP over TCP</h1>
+<pre>
+                0   1   2   3   4   5   6   7
+              +---------------+---------------+
+              |               |               |
+              |      Len      |      TKL      |   1 byte
+              |               |               |
+              +---------------+---------------+
+              \                               \
+              /              Len              /   0-2 bytes
+              \          (extended)           \
+              +-------------------------------+
+              |                               |
+              |             Code              |   1 byte
+              |                               |
+              +-------------------------------+
+              \                               \
+              /              TKL              /   0-2 bytes
+              \          (extended)           \
+              +-------------------------------+
+              \                               \
+              /             Token             /   0 or more bytes
+              \                               \
+              +-------------------------------+
+              \                               \
+              /                               /
+              \                               \
+              /            Options            /   0 or more bytes
+              \                               \
+              /                               /
+              \                               \
+              +---------------+---------------+
+              |               |               |
+              |      15       |       15      |   1 byte (if payload)
+              |               |               |
+              +---------------+---------------+
+              \                               \
+              /                               /
+              \                               \
+              /            Payload            /   0 or more bytes
+              \                               \
+              /                               /
+              \                               \
+              +-------------------------------+
+</pre>
+<h1 id="rfc.appendix.A.3">
+<a href="#rfc.appendix.A.3">A.3.</a> CoAP over WebSockets</h1>
+<pre>
+                0   1   2   3   4   5   6   7
+              +---------------+---------------+
+              |               |               |
+              |       0       |      TKL      |   1 byte
+              |               |               |
+              +---------------+---------------+
+              |                               |
+              |             Code              |   1 byte
+              |                               |
+              +-------------------------------+
+              \                               \
+              /              TKL              /   0-2 bytes
+              \          (extended)           \
+              +-------------------------------+
+              \                               \
+              /             Token             /   0 or more bytes
+              \                               \
+              +-------------------------------+
+              \                               \
+              /                               /
+              \                               \
+              /            Options            /   0 or more bytes
+              \                               \
+              /                               /
+              \                               \
+              +---------------+---------------+
+              |               |               |
+              |      15       |       15      |   1 byte (if payload)
+              |               |               |
+              +---------------+---------------+
+              \                               \
+              /                               /
+              \                               \
+              /            Payload            /   0 or more bytes
+              \                               \
+              /                               /
+              \                               \
+              +-------------------------------+
+</pre>
+<h1 id="rfc.acknowledgements"><a href="#rfc.acknowledgements">Acknowledgements</a></h1>
+<p id="rfc.section.B.p.1">This document is based on the requirements of and work on the <a href="#I-D.ietf-6tisch-minimal-security" class="xref">Minimal Security Framework for 6TiSCH</a> by Malisa Vucinic, Jonathan Simon, Kris Pister, and Michael Richardson.  </p>
+<p id="rfc.section.B.p.2">Thanks to Christian Ams&#252;ss, Carsten Bormann, Christer Holmberg, Ari Keranen, John Mattsson, Jim Schaad, G&#246;ran Selander, and Malisa Vucinic for helpful comments and discussions that have shaped the document.  </p>
+<p id="rfc.section.B.p.3">Special thanks to Thomas Fossati for his in-depth review, copious comments, and suggested text.  </p>
+<h1 id="rfc.authors"><a href="#rfc.authors">Author's Address</a></h1>
+<div class="avoidbreak">
+  <address class="vcard">
+	<span class="vcardline">
+	  <span class="fn">Klaus Hartke</span> 
+	  <span class="n hidden">
+		<span class="family-name">Hartke</span>
+	  </span>
+	</span>
+	<span class="org vcardline">Ericsson</span>
+	<span class="adr">
+	  <span class="vcardline">Torshamnsgatan 23</span>
+
+	  <span class="vcardline">
+		<span class="locality">Stockholm</span>,  
+		<span class="region"></span>
+		<span class="code">SE-16483</span>
+	  </span>
+	  <span class="country-name vcardline">Sweden</span>
+	</span>
+	<span class="vcardline">EMail: <a href="mailto:klaus.hartke@ericsson.com">klaus.hartke@ericsson.com</a></span>
+
+  </address>
+</div>
+
+</body>
+</html>
