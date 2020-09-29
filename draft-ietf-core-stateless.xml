@@ -28,7 +28,7 @@
 
   <front>
 
-    <title abbrev="Extended Tokens and Stateless Clients in CoAP">
+    <title abbrev="Stateless Client State for CoAP">
       Extended&#160;Tokens&#160;and&#160;Stateless&#160;Clients
       in&#160;the&#160;Constrained&#160;Application&#160;Protocol&#160;(CoAP)
     </title>
