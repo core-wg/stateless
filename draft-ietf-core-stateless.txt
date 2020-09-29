@@ -4,9 +4,9 @@
 
 CoRE Working Group                                             K. Hartke
 Internet-Draft                                                  Ericsson
-Updates: 7252, 8323 (if approved)                           July 1, 2020
-Intended status: Standards Track
-Expires: January 2, 2021
+Updates: 7252, 8323 (if approved)                      29 September 2020
+Intended status: Standards Track                                        
+Expires: 2 April 2021
 
 
                  Extended Tokens and Stateless Clients
@@ -37,48 +37,53 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on January 2, 2021.
+   This Internet-Draft will expire on 2 April 2021.
 
 Copyright Notice
 
    Copyright (c) 2020 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
-   This document is subject to BCP 78 and the IETF Trust's Legal
-   Provisions Relating to IETF Documents
-   (https://trustee.ietf.org/license-info) in effect on the date of
-   publication of this document.  Please review these documents
-   carefully, as they describe your rights and restrictions with respect
-   to this document.  Code Components extracted from this document must
 
 
 
-Hartke                   Expires January 2, 2021                [Page 1]
+
+
+
+
+
+
+Hartke                    Expires 2 April 2021                  [Page 1]
 
-Internet-DraftExtended Tokens and Stateless Clients in CoAP    July 2020
+Internet-Draft  Extended Tokens and Stateless Clients in  September 2020
 
 
-   include Simplified BSD License text as described in Section 4.e of
-   the Trust Legal Provisions and are provided without warranty as
-   described in the Simplified BSD License.
+   This document is subject to BCP 78 and the IETF Trust's Legal
+   Provisions Relating to IETF Documents (https://trustee.ietf.org/
+   license-info) in effect on the date of publication of this document.
+   Please review these documents carefully, as they describe your rights
+   and restrictions with respect to this document.  Code Components
+   extracted from this document must include Simplified BSD License text
+   as described in Section 4.e of the Trust Legal Provisions and are
+   provided without warranty as described in the Simplified BSD License.
 
 Table of Contents
 
-   1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   2
+   1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   3
      1.1.  Terminology . . . . . . . . . . . . . . . . . . . . . . .   4
-   2.  Extended Tokens . . . . . . . . . . . . . . . . . . . . . . .   4
-     2.1.  Extended Token Length (TKL) Field . . . . . . . . . . . .   4
+   2.  Extended Tokens . . . . . . . . . . . . . . . . . . . . . . .   5
+     2.1.  Extended Token Length (TKL) Field . . . . . . . . . . . .   5
      2.2.  Discovering Support . . . . . . . . . . . . . . . . . . .   5
-       2.2.1.  Extended-Token-Length Capability Option . . . . . . .   5
-       2.2.2.  Trial-and-Error . . . . . . . . . . . . . . . . . . .   6
+       2.2.1.  Extended-Token-Length Capability Option . . . . . . .   6
+       2.2.2.  Trial-and-Error . . . . . . . . . . . . . . . . . . .   7
      2.3.  Intermediaries  . . . . . . . . . . . . . . . . . . . . .   8
-   3.  Stateless Clients . . . . . . . . . . . . . . . . . . . . . .   8
-     3.1.  Serializing Client State  . . . . . . . . . . . . . . . .   8
-     3.2.  Using Extended Tokens . . . . . . . . . . . . . . . . . .   9
+   3.  Stateless Clients . . . . . . . . . . . . . . . . . . . . . .   9
+     3.1.  Serializing Client State  . . . . . . . . . . . . . . . .   9
+     3.2.  Using Extended Tokens . . . . . . . . . . . . . . . . . .  10
      3.3.  Transmitting Messages . . . . . . . . . . . . . . . . . .  11
-   4.  Stateless Intermediaries  . . . . . . . . . . . . . . . . . .  11
+   4.  Stateless Intermediaries  . . . . . . . . . . . . . . . . . .  12
      4.1.  Observing Resources . . . . . . . . . . . . . . . . . . .  12
-     4.2.  Block-Wise Transfers  . . . . . . . . . . . . . . . . . .  12
+     4.2.  Block-Wise Transfers  . . . . . . . . . . . . . . . . . .  13
      4.3.  Gateway Timeouts  . . . . . . . . . . . . . . . . . . . .  13
    5.  Security Considerations . . . . . . . . . . . . . . . . . . .  13
      5.1.  Extended Tokens . . . . . . . . . . . . . . . . . . . . .  13
@@ -88,12 +93,26 @@ Table of Contents
    7.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  14
      7.1.  Normative References  . . . . . . . . . . . . . . . . . .  14
      7.2.  Informative References  . . . . . . . . . . . . . . . . .  15
-   Appendix A.  Updated Message Formats  . . . . . . . . . . . . . .  15
-     A.1.  CoAP over UDP . . . . . . . . . . . . . . . . . . . . . .  15
-     A.2.  CoAP over TCP . . . . . . . . . . . . . . . . . . . . . .  17
+   Appendix A.  Updated Message Formats  . . . . . . . . . . . . . .  16
+     A.1.  CoAP over UDP . . . . . . . . . . . . . . . . . . . . . .  16
+     A.2.  CoAP over TCP . . . . . . . . . . . . . . . . . . . . . .  18
      A.3.  CoAP over WebSockets  . . . . . . . . . . . . . . . . . .  18
-   Acknowledgements  . . . . . . . . . . . . . . . . . . . . . . . .  18
-   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .  19
+   Acknowledgements  . . . . . . . . . . . . . . . . . . . . . . . .  19
+   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .  20
+
+
+
+
+
+
+
+
+
+
+Hartke                    Expires 2 April 2021                  [Page 2]
+
+Internet-Draft  Extended Tokens and Stateless Clients in  September 2020
+
 
 1.  Introduction
 
@@ -106,14 +125,6 @@ Table of Contents
    While a request is ongoing, a client typically needs to keep some
    state that it requires for processing the response when that arrives.
    Identification of this state is done in CoAP by means of a token, an
-
-
-
-Hartke                   Expires January 2, 2021                [Page 2]
-
-Internet-DraftExtended Tokens and Stateless Clients in CoAP    July 2020
-
-
    opaque sequence of bytes chosen by the client and included in the
    CoAP request, and that is returned by the server verbatim in any
    resulting CoAP response (Figure 1).
@@ -132,13 +143,32 @@ Internet-DraftExtended Tokens and Stateless Clients in CoAP    July 2020
           +-----------------+                      +------------+
                 Client                                 Server
 
-            Figure 1: Token as an Identifier for Request State
+             Figure 1: Token as an Identifier for Request State
 
    In some scenarios, it can be beneficial to reduce the amount of state
    that is stored at the client at the cost of increased message sizes.
    A client can opt into this by serializing (parts of) its state into
    the token itself and then recovering this state from the token in the
    response (Figure 2).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Hartke                    Expires 2 April 2021                  [Page 3]
+
+Internet-Draft  Extended Tokens and Stateless Clients in  September 2020
+
 
           +-----------------+     request with     +------------+
           |        |        |   serialized state   |            |
@@ -162,13 +192,6 @@ Internet-DraftExtended Tokens and Stateless Clients in CoAP    July 2020
    still need to maintain per-server state and other kinds of state.  So
    it would be more accurate to say that these clients are just avoiding
    per-request state.)
-
-
-
-Hartke                   Expires January 2, 2021                [Page 3]
-
-Internet-DraftExtended Tokens and Stateless Clients in CoAP    July 2020
-
 
    Section 4 of this document extends the considerations to
    intermediaries, which may want to avoid not only state for the
@@ -195,6 +218,14 @@ Internet-DraftExtended Tokens and Stateless Clients in CoAP    July 2020
    needs to keep state for each server it communicates with (e.g., for
    token generation, message retransmission, and congestion control).
 
+
+
+
+Hartke                    Expires 2 April 2021                  [Page 4]
+
+Internet-Draft  Extended Tokens and Stateless Clients in  September 2020
+
+
    The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
    "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
    "OPTIONAL" in this document are to be interpreted as described in BCP
@@ -219,13 +250,6 @@ Internet-DraftExtended Tokens and Stateless Clients in CoAP    July 2020
       13:  An 8-bit unsigned integer precedes the Token field and
          indicates the length of the Token field minus 13.
 
-
-
-Hartke                   Expires January 2, 2021                [Page 4]
-
-Internet-DraftExtended Tokens and Stateless Clients in CoAP    July 2020
-
-
       14:  A 16-bit unsigned integer in network byte order precedes the
          Token field and indicates the length of the Token field minus
          269.
@@ -249,11 +273,20 @@ Internet-DraftExtended Tokens and Stateless Clients in CoAP    July 2020
    Support can be discovered by a client implementation in one of two
    ways:
 
-   o  Where Capabilities and Settings Messages (CSMs) are available,
+
+
+
+
+Hartke                    Expires 2 April 2021                  [Page 5]
+
+Internet-Draft  Extended Tokens and Stateless Clients in  September 2020
+
+
+   *  Where Capabilities and Settings Messages (CSMs) are available,
       such as in CoAP over TCP, support can be discovered using the
       Extended-Token-Length Capability Option defined in Section 2.2.1.
 
-   o  Otherwise, such as in CoAP over UDP, support can only be
+   *  Otherwise, such as in CoAP over UDP, support can only be
       discovered by trial-and-error, as described in Section 2.2.2.
 
 2.2.1.  Extended-Token-Length Capability Option
@@ -261,26 +294,16 @@ Internet-DraftExtended Tokens and Stateless Clients in CoAP    July 2020
    A server can use the elective Extended-Token-Length Capability Option
    to indicate the maximum token length it can accept in requests.
 
-   +----+---+---+--------+--------------------+-------+--------+-------+
-   |  # | C | R | Applie | Name               | Forma | Length | Base  |
-   |    |   |   | s to   |                    | t     |        | Value |
-   +----+---+---+--------+--------------------+-------+--------+-------+
-   | TB |   |   | CSM    | Extended-Token-    | uint  | 0-3    | 8     |
-   |  D |   |   |        | Length             |       |        |       |
-   +----+---+---+--------+--------------------+-------+--------+-------+
+   +===+=+=+=========+=======================+========+========+=======+
+   |  #|C|R| Applies | Name                  | Format | Length | Base  |
+   |   | | | to      |                       |        |        | Value |
+   +===+=+=+=========+=======================+========+========+=======+
+   |TBD| | | CSM     | Extended-Token-Length | uint   | 0-3    | 8     |
+   +---+-+-+---------+-----------------------+--------+--------+-------+
 
-                         C=Critical, R=Repeatable
+            Table 1: The Extended-Token-Length Capability Option
 
-           Table 1: The Extended-Token-Length Capability Option
-
-
-
-
-
-Hartke                   Expires January 2, 2021                [Page 5]
-
-Internet-DraftExtended Tokens and Stateless Clients in CoAP    July 2020
-
+   C=Critical, R=Repeatable
 
    As per Section 3 of RFC 7252, the base value (and the value used when
    this option is not implemented) is 8.
@@ -307,6 +330,14 @@ Internet-DraftExtended Tokens and Stateless Clients in CoAP    July 2020
    responses.  The sender of a request is simply expected not to use a
    token of a length greater than it is willing to accept in a response.
 
+
+
+
+Hartke                    Expires 2 April 2021                  [Page 6]
+
+Internet-Draft  Extended Tokens and Stateless Clients in  September 2020
+
+
 2.2.2.  Trial-and-Error
 
    A server implementation that does not support the updated definition
@@ -331,13 +362,6 @@ Internet-DraftExtended Tokens and Stateless Clients in CoAP    July 2020
    that has no potential message format error other than the extended
    token length.
 
-
-
-Hartke                   Expires January 2, 2021                [Page 6]
-
-Internet-DraftExtended Tokens and Stateless Clients in CoAP    July 2020
-
-
           +-----------------+   request message    +------------+
           |        |        |    with extended     |            |
           |        |        |     token length     |            |
@@ -352,14 +376,23 @@ Internet-DraftExtended Tokens and Stateless Clients in CoAP    July 2020
           +-----------------+    ID echoed back    +------------+
                 Client                                 Server
 
-    Figure 3: A Confirmable Request With an Extended Token is Rejected
-         With a Reset Message if the Server Does Not Have Support
+         Figure 3: A Confirmable Request With an Extended Token is
+     Rejected With a Reset Message if the Server Does Not Have Support
 
    An example of a suitable request is a GET request in a Confirmable
    message that includes only an If-None-Match option and a token of the
    greatest length that the client intends to use.  Any response with
    the same token echoed back indicates that tokens up to that length
    are supported by the server.
+
+
+
+
+
+Hartke                    Expires 2 April 2021                  [Page 7]
+
+Internet-Draft  Extended Tokens and Stateless Clients in  September 2020
+
 
    Since network addresses may change, a client SHOULD NOT assume that
    extended token lengths are supported by a server later than 60
@@ -386,14 +419,6 @@ Internet-DraftExtended Tokens and Stateless Clients in CoAP    July 2020
 
    Design Note:  To make the trial-and-error-based discovery not too
       complicated, no effort is made to indicate the maximum supported
-
-
-
-Hartke                   Expires January 2, 2021                [Page 7]
-
-Internet-DraftExtended Tokens and Stateless Clients in CoAP    July 2020
-
-
       token length.  A client implementation would probably already
       choose the shortest token possible for the task (like being
       stateless as described in Section 3), so it probably would not be
@@ -414,6 +439,16 @@ Internet-DraftExtended Tokens and Stateless Clients in CoAP    July 2020
    lengths itself in its request to satisfy a request with an extended
    token length.  Discovery needs to be performed for each hop where
    extended token lengths are to be used.
+
+
+
+
+
+
+Hartke                    Expires 2 April 2021                  [Page 8]
+
+Internet-Draft  Extended Tokens and Stateless Clients in  September 2020
+
 
 3.  Stateless Clients
 
@@ -442,14 +477,6 @@ Internet-DraftExtended Tokens and Stateless Clients in CoAP    July 2020
    protect the state information, unless processing a response does not
    modify state or cause any other significant side effects.
 
-
-
-
-Hartke                   Expires January 2, 2021                [Page 8]
-
-Internet-DraftExtended Tokens and Stateless Clients in CoAP    July 2020
-
-
    Even when the serialized state is integrity protected, an attacker
    may still replay a response, making the client believe it sent the
    same request twice.  Therefore, the client SHOULD implement replay
@@ -466,6 +493,19 @@ Internet-DraftExtended Tokens and Stateless Clients in CoAP    July 2020
    client SHOULD encrypt the serialized state if it contains privacy
    sensitive information that an attacker would not get otherwise.
 
+
+
+
+
+
+
+
+
+Hartke                    Expires 2 April 2021                  [Page 9]
+
+Internet-Draft  Extended Tokens and Stateless Clients in  September 2020
+
+
 3.2.  Using Extended Tokens
 
    A client that depends on support for extended token lengths
@@ -478,33 +518,6 @@ Internet-DraftExtended Tokens and Stateless Clients in CoAP    July 2020
    the start and the server does not support extended tokens, then any
    error message could not be processed since the state would neither be
    present at the client nor returned in the Reset message (Figure 5).
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Hartke                   Expires January 2, 2021                [Page 9]
-
-Internet-DraftExtended Tokens and Stateless Clients in CoAP    July 2020
-
 
           +-----------------+    dummy request     +------------+
           |        |        |    with extended     |            |
@@ -534,8 +547,20 @@ Internet-DraftExtended Tokens and Stateless Clients in CoAP    July 2020
           +-----------------+                      +------------+
                 Client                                 Server
 
-     Figure 4: Depending on Extended Tokens for Being Stateless First
+      Figure 4: Depending on Extended Tokens for Being Stateless First
             Requires a Successful Stateful Discovery of Support
+
+
+
+
+
+
+
+
+Hartke                    Expires 2 April 2021                 [Page 10]
+
+Internet-Draft  Extended Tokens and Stateless Clients in  September 2020
+
 
           +-----------------+    dummy request     +------------+
           |        |        |    with extended     |            |
@@ -551,16 +576,7 @@ Internet-DraftExtended Tokens and Stateless Clients in CoAP    July 2020
           +-----------------+    ID echoed back    +------------+
                 Client                                 Server
 
-          Figure 5: Stateless Discovery of Support Does Not Work
-
-
-
-
-
-Hartke                   Expires January 2, 2021               [Page 10]
-
-Internet-DraftExtended Tokens and Stateless Clients in CoAP    July 2020
-
+           Figure 5: Stateless Discovery of Support Does Not Work
 
    In environments where support can be reliably discovered through some
    other means, the discovery of support is OPTIONAL.  An example for
@@ -587,17 +603,27 @@ Internet-DraftExtended Tokens and Stateless Clients in CoAP    July 2020
    request.  A stateless client MUST handle these response types as
    follows:
 
-   o  If a piggybacked response passes the token integrity protection
+   *  If a piggybacked response passes the token integrity protection
       and freshness checks, the client processes the message as
       specified in RFC 7252; otherwise, it silently discards the
       message.
 
-   o  If a separate response passes the token integrity protection and
+
+
+
+
+
+Hartke                    Expires 2 April 2021                 [Page 11]
+
+Internet-Draft  Extended Tokens and Stateless Clients in  September 2020
+
+
+   *  If a separate response passes the token integrity protection and
       freshness checks, the client processes the message as specified in
       RFC 7252; otherwise, it rejects the message as specified in
       Section 4.2 of RFC 7252.
 
-   o  If a Non-confirmable response passes the token integrity
+   *  If a Non-confirmable response passes the token integrity
       protection and freshness checks, the client processes the message
       as specified in RFC 7252; otherwise, it rejects the message as
       specified in Section 4.3 of RFC 7252.
@@ -609,15 +635,6 @@ Internet-DraftExtended Tokens and Stateless Clients in CoAP    July 2020
    (along with the client's transport address) while it makes its own
    request towards the origin server and waits for the response.  When
    the intermediary receives the response, it looks up the client's
-
-
-
-
-Hartke                   Expires January 2, 2021               [Page 11]
-
-Internet-DraftExtended Tokens and Stateless Clients in CoAP    July 2020
-
-
    token and transport address for the received request and sends an
    appropriate response to the client.
 
@@ -649,6 +666,14 @@ Internet-DraftExtended Tokens and Stateless Clients in CoAP    July 2020
    of RFC 7641) or want to cancel an observation (Section 3.6 of RFC
    7641).
 
+
+
+
+Hartke                    Expires 2 April 2021                 [Page 12]
+
+Internet-Draft  Extended Tokens and Stateless Clients in  September 2020
+
+
    Therefore, an intermediary MUST NOT include an Observe Option in
    requests it sends without keeping both the request state for the
    requests it sends and the client information for the requests it
@@ -663,16 +688,6 @@ Internet-DraftExtended Tokens and Stateless Clients in CoAP    July 2020
    keeping distinct block-wise request operations on the same resource
    apart, e.g., utilizing the Request-Tag Option
    [I-D.ietf-core-echo-request-tag].
-
-
-
-
-
-
-Hartke                   Expires January 2, 2021               [Page 12]
-
-Internet-DraftExtended Tokens and Stateless Clients in CoAP    July 2020
-
 
 4.3.  Gateway Timeouts
 
@@ -702,6 +717,19 @@ Internet-DraftExtended Tokens and Stateless Clients in CoAP    July 2020
    non-obvious security and privacy implications that need to be
    mitigated; see Section 3.1 for recommendations.
 
+
+
+
+
+
+
+
+
+Hartke                    Expires 2 April 2021                 [Page 13]
+
+Internet-Draft  Extended Tokens and Stateless Clients in  September 2020
+
+
    The use of encryption, integrity protection, and replay protection of
    serialized state is recommended in general, unless a careful analysis
    of any potential attacks to security and privacy is performed.  AES-
@@ -722,14 +750,6 @@ Internet-DraftExtended Tokens and Stateless Clients in CoAP    July 2020
    be difficult to use AES-CCM securely when using statically configured
    keys, implementations should use automated key management [RFC4107].
 
-
-
-
-Hartke                   Expires January 2, 2021               [Page 13]
-
-Internet-DraftExtended Tokens and Stateless Clients in CoAP    July 2020
-
-
 6.  IANA Considerations
 
 6.1.  CoAP Signaling Option Number
@@ -737,11 +757,13 @@ Internet-DraftExtended Tokens and Stateless Clients in CoAP    July 2020
    The following entries are added to the "CoAP Signaling Option
    Numbers" registry within the "CoRE Parameters" registry.
 
-    +------------+--------+-----------------------+-------------------+
+    +============+========+=======================+===================+
     | Applies to | Number | Name                  | Reference         |
-    +------------+--------+-----------------------+-------------------+
+    +============+========+=======================+===================+
     | 7.01       |    TBD | Extended-Token-Length | [[this document]] |
     +------------+--------+-----------------------+-------------------+
+
+                                  Table 2
 
    [[NOTE TO RFC EDITOR: Please replace "TBD" in this section and in
    Table 1 with the code point assigned by IANA.]]
@@ -754,6 +776,15 @@ Internet-DraftExtended Tokens and Stateless Clients in CoAP    July 2020
               Requirement Levels", BCP 14, RFC 2119,
               DOI 10.17487/RFC2119, March 1997,
               <https://www.rfc-editor.org/info/rfc2119>.
+
+
+
+
+
+Hartke                    Expires 2 April 2021                 [Page 14]
+
+Internet-Draft  Extended Tokens and Stateless Clients in  September 2020
+
 
    [RFC4107]  Bellovin, S. and R. Housley, "Guidelines for Cryptographic
               Key Management", BCP 107, RFC 4107, DOI 10.17487/RFC4107,
@@ -778,14 +809,6 @@ Internet-DraftExtended Tokens and Stateless Clients in CoAP    July 2020
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/info/rfc8174>.
 
-
-
-
-Hartke                   Expires January 2, 2021               [Page 14]
-
-Internet-DraftExtended Tokens and Stateless Clients in CoAP    July 2020
-
-
    [RFC8323]  Bormann, C., Lemay, S., Tschofenig, H., Hartke, K.,
               Silverajan, B., and B. Raymor, Ed., "CoAP (Constrained
               Application Protocol) over TCP, TLS, and WebSockets",
@@ -796,14 +819,28 @@ Internet-DraftExtended Tokens and Stateless Clients in CoAP    July 2020
 
    [I-D.ietf-6tisch-minimal-security]
               Vucinic, M., Simon, J., Pister, K., and M. Richardson,
-              "Constrained Join Protocol (CoJP) for 6TiSCH", draft-ietf-
-              6tisch-minimal-security-15 (work in progress), December
-              2019.
+              "Constrained Join Protocol (CoJP) for 6TiSCH", Work in
+              Progress, Internet-Draft, draft-ietf-6tisch-minimal-
+              security-15, 10 December 2019, <http://www.ietf.org/
+              internet-drafts/draft-ietf-6tisch-minimal-security-
+              15.txt>.
 
    [I-D.ietf-core-echo-request-tag]
               Amsuess, C., Mattsson, J., and G. Selander, "CoAP: Echo,
-              Request-Tag, and Token Processing", draft-ietf-core-echo-
-              request-tag-09 (work in progress), March 2020.
+              Request-Tag, and Token Processing", Work in Progress,
+              Internet-Draft, draft-ietf-core-echo-request-tag-10, 13
+              July 2020, <http://www.ietf.org/internet-drafts/draft-
+              ietf-core-echo-request-tag-10.txt>.
+
+
+
+
+
+
+Hartke                    Expires 2 April 2021                 [Page 15]
+
+Internet-Draft  Extended Tokens and Stateless Clients in  September 2020
+
 
    [RFC7228]  Bormann, C., Ersue, M., and A. Keranen, "Terminology for
               Constrained-Node Networks", RFC 7228,
@@ -837,9 +874,28 @@ A.1.  CoAP over UDP
 
 
 
-Hartke                   Expires January 2, 2021               [Page 15]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Hartke                    Expires 2 April 2021                 [Page 16]
 
-Internet-DraftExtended Tokens and Stateless Clients in CoAP    July 2020
+Internet-Draft  Extended Tokens and Stateless Clients in  September 2020
 
 
                    0   1   2   3   4   5   6   7
@@ -893,9 +949,9 @@ Internet-DraftExtended Tokens and Stateless Clients in CoAP    July 2020
 
 
 
-Hartke                   Expires January 2, 2021               [Page 16]
+Hartke                    Expires 2 April 2021                 [Page 17]
 
-Internet-DraftExtended Tokens and Stateless Clients in CoAP    July 2020
+Internet-Draft  Extended Tokens and Stateless Clients in  September 2020
 
 
 A.2.  CoAP over TCP
@@ -943,18 +999,16 @@ A.2.  CoAP over TCP
                  \                               \
                  +-------------------------------+
 
-
-
-
-
-
-
-Hartke                   Expires January 2, 2021               [Page 17]
-
-Internet-DraftExtended Tokens and Stateless Clients in CoAP    July 2020
-
-
 A.3.  CoAP over WebSockets
+
+
+
+
+
+Hartke                    Expires 2 April 2021                 [Page 18]
+
+Internet-Draft  Extended Tokens and Stateless Clients in  September 2020
+
 
                    0   1   2   3   4   5   6   7
                  +---------------+---------------+
@@ -1005,9 +1059,11 @@ Acknowledgements
 
 
 
-Hartke                   Expires January 2, 2021               [Page 18]
+
+
+Hartke                    Expires 2 April 2021                 [Page 19]
 
-Internet-DraftExtended Tokens and Stateless Clients in CoAP    July 2020
+Internet-Draft  Extended Tokens and Stateless Clients in  September 2020
 
 
    Thanks to Christian Amsuess, Carsten Bormann, Christer Holmberg, Ari
@@ -1023,7 +1079,7 @@ Author's Address
    Klaus Hartke
    Ericsson
    Torshamnsgatan 23
-   Stockholm  SE-16483
+   SE-16483 Stockholm
    Sweden
 
    Email: klaus.hartke@ericsson.com
@@ -1061,4 +1117,4 @@ Author's Address
 
 
 
-Hartke                   Expires January 2, 2021               [Page 19]
+Hartke                    Expires 2 April 2021                 [Page 20]
