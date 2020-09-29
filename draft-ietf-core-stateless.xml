@@ -2,7 +2,9 @@
 
 <!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
   <!ENTITY RFC2119 SYSTEM "http://www.rfc-editor.org/refs/bibxml/reference.RFC.2119.xml">
+  <!ENTITY RFC3610 SYSTEM "http://www.rfc-editor.org/refs/bibxml/reference.RFC.3610.xml">
   <!ENTITY RFC4107 SYSTEM "http://www.rfc-editor.org/refs/bibxml/reference.RFC.4107.xml">
+  <!ENTITY RFC6234 SYSTEM "http://www.rfc-editor.org/refs/bibxml/reference.RFC.6234.xml">
   <!ENTITY RFC7228 SYSTEM "http://www.rfc-editor.org/refs/bibxml/reference.RFC.7228.xml">
   <!ENTITY RFC7252 SYSTEM "http://www.rfc-editor.org/refs/bibxml/reference.RFC.7252.xml">
   <!ENTITY RFC7641 SYSTEM "http://www.rfc-editor.org/refs/bibxml/reference.RFC.7641.xml">
@@ -58,7 +60,8 @@
       </t>
 
       <t>
-        This document updates RFCs 7252 and 8323.
+        This document updates RFCs 7252 and 8323 with a new definition of the
+        TKL field in the CoAP message header.
       </t>
 
     </abstract>
@@ -134,26 +137,29 @@
 
       <t>
         <xref target="stateless-clients"/> of this document provides
-        considerations for clients becoming "stateless" in this way. (As
-        those considerations will show, the term "stateless" is not entirely
-        accurate. The clients still need to maintain per-server state and other
-        kinds of state. So it would be more accurate to say that these clients are just
-        avoiding per-request state.)
+        considerations for clients becoming "stateless" in this way.
+        (The term "stateless" is in quotes here, because it's a bit
+        oversimplified. Such clients still need to maintain per-server state and other
+        kinds of state. So it would be more accurate to
+        just say that the clients are avoiding per-request state.)
       </t>
 
       <t>
-        <xref target="stateless-intermediaries"/> of this document extends the
-        considerations to intermediaries, which may want to avoid not only state
-        for the requests they send but also for the requests they receive.
+        <xref target="stateless-intermediaries"/> of this document
+        extends the considerations for clients to intermediaries, which
+        may not only want to avoid keeping state for the requests they
+        send to servers but also for the requests they receive from
+        clients.
       </t>
 
       <t>
-        Serializing state into tokens is limited by the fact that both <xref
-        target="RFC7252">CoAP over UDP</xref> and <xref target="RFC8323">CoAP
-        over reliable transports</xref> restrict the maximum token length to 8
-        bytes. To overcome this limitation, <xref target="extended-tokens"/> of
-        this document first introduces a CoAP protocol extension for extended
-        token lengths.
+        The serialization of state into tokens is limited by the fact
+        that both <xref target="RFC7252">CoAP over UDP</xref> and <xref
+        target="RFC8323">CoAP over reliable transports</xref> restrict
+        the maximum token length to 8 bytes. To overcome this
+        limitation, <xref target="extended-tokens"/> of this document
+        first introduces a CoAP protocol extension for extended token
+        lengths.
       </t>
 
       <t>
@@ -212,11 +218,11 @@
               The other three values are reserved for special constructs:
               <list style="hanging">
                 <t hangText="13:">
-                  An 8-bit unsigned integer precedes the Token field and
+                  An 8-bit unsigned integer directly precedes the Token field and
                   indicates the length of the Token field minus 13.
                 </t>
                 <t hangText="14:">
-                  A 16-bit unsigned integer in network byte order precedes the
+                  A 16-bit unsigned integer in network byte order directly precedes the
                   Token field and indicates the length of the Token field minus
                   269.
                 </t>
@@ -230,12 +236,12 @@
         </t>
 
         <t>
-          The updated message formats are illustrated in <xref
-          target="message-formats"/>.
+          All other fields retain their definitions.
         </t>
 
         <t>
-          All other fields retain their definitions.
+          The updated message formats are illustrated in <xref
+          target="message-formats"/>.
         </t>
 
         <t>
@@ -244,6 +250,13 @@
           recipient implementations support may be shorter. For example, a
           constrained node of <xref target="RFC7228">Class 1</xref> might
           support extended token lengths only up to 32 bytes.
+        </t>
+
+        <t>
+          In CoAP over UDP, it is often beneficial to keep CoAP messages small
+          enough to avoid IP fragmentation. The maximum practical token length
+          may therefore also be influenced by the Path MTU. See Section 4.6 of
+          RFC 7252 for details.
         </t>
 
       </section>
@@ -325,16 +338,24 @@
           </t>
 
           <t>
-            If a server receives a request with a token of a length greater than
+            If a server receives a request with a token of a length greater than what
             it indicated in its Extended-Token-Length Option, it MUST handle the
             request as a message format error.
           </t>
 
           <t>
-                The Extended-Token-Length Capability Option does not apply to
-                responses. The sender of a request is simply expected not to
-                use a token of a length greater than it is willing to accept in
-                a response.
+            If a server receives a request with a token of a length less than or
+            equal to what it indicated in its Extended-Token-Length Option but
+            is unwilling or unable to handle the token at that time, it MUST NOT
+            handle the request as a message format error. Instead, it SHOULD
+            return a 5.03 (Service Unavailable) response.
+          </t>
+
+          <t>
+            The Extended-Token-Length Capability Option does not apply to
+            responses. The sender of a request is simply expected not to use a
+            token of a length greater than it is willing to accept in a
+            response.
           </t>
 
         </section>
@@ -357,7 +378,7 @@
             is rejected with a Reset message (Section 4.2 of RFC 7252). A
             Non-confirmable message with a message format error is either rejected
             with a Reset message or just silently ignored (Section 4.3 of RFC
-            7252). It is therefore RECOMMENDED that clients use a Confirmable
+            7252). To reliably get a Reset message, it is therefore REQUIRED that clients use a Confirmable
             message for determining support.
           </t>
 
@@ -398,7 +419,7 @@
           <t>
             Since network addresses may change,
             a client SHOULD NOT assume that extended token lengths are supported
-            by a server later than 60 minutes after receiving a response with an extended
+            by a server later than 60 minutes after receiving the most-recent response with an extended
             token length.
           </t>
 
@@ -408,7 +429,7 @@
             MUST NOT reject the message, as that would imply that extended token
             lengths are not supported at all. Instead, if the server cannot
             handle the request at the time, it SHOULD return a 5.03 (Service
-            Unavailable) response; if the server will never be able to handle
+            Unavailable) response; if the server will never be able to handle the request
             (e.g., because the token is too large), it SHOULD return a 4.00 (Bad
             Request) response.
           </t>
@@ -422,8 +443,8 @@
                 token it cannot handle. However,
                 processing a request usually involves a number of steps from
                 receiving the message to passing it to application logic.
-                The idea is that a server implementing this document
-                should at least support large tokens in its first few processing steps, enough to
+                The idea is that a server implementing this extension
+                supports large tokens at least in its first few processing steps, enough to
                 return an error response rather than a Reset message.
               </t>
             </list>
@@ -436,7 +457,7 @@
                 token length. A client implementation would probably
                 already choose the shortest token possible for the task (like
                 being stateless as described in <xref
-                target="stateless-clients"/>), so it probably would not be able
+                target="stateless-clients"/>), so it would probably not be able
                 to reduce the length any further anyway should a server
                 indicate a lower limit.
               </t>
@@ -477,22 +498,28 @@
     <section title="Stateless Clients" anchor="stateless-clients">
 
       <t>
-        A client can be alleviated of keeping per-request state by serializing
-        the state into a sequence of bytes and then sending those bytes as the token of
-        the request. The server returns the token verbatim in the response to
-        the client, which allows the client to recover the state and process the
-        response as if it had kept the state locally.
+        A client can be alleviated of keeping per-request state as follows:
+        <list style="numbers">
+          <t>
+            The client serializes (parts of) its per-request state into
+            a sequence of bytes and sends those bytes as the token of
+            its request to the server.
+          </t>
+          <t>
+            The server returns the token verbatim in the response to the
+            client, which allows the client to recover the state and
+            process the response as if it had kept the state locally.
+          </t>
+        </list>
       </t>
 
       <t>
-        The format of the serialized state is generally an implementation detail
-        of the client and opaque to the server. However, transporting client
-        state in requests and responses has significant security and privacy
-        implications that need to be taken into consideration by a client
-        implementation.
-        There are also several other, non-obvious implications from CoAP
-        protocol features that should be taken into consideration by a client
-        implementation.
+        As servers are just expected to return any token verbatim to the
+        client, this implementation strategy for clients does not impact the
+        interoperability of client and server implementations. However,
+        there are a number of significant, non-obvious implications
+        (e.g., related to security and other CoAP protocol features)
+        that client implementations need take into consideration.
       </t>
 
       <t>
@@ -502,34 +529,53 @@
       <section title="Serializing Client State" anchor="serialized-state">
 
         <t>
-          Serialized state information is an attractive target for both unwanted
-          nodes (e.g., on-path attackers) and wanted nodes (e.g., forward
-          proxies) on the path. Therefore, a client SHOULD integrity protect the
-          state information, unless processing a response does not modify state
-          or cause any other significant side effects.
-        </t>
+          The format of the serialized state is generally an
+          implementation detail of the client and opaque to the server.
 
-        <t>
-          Even when the serialized state is integrity protected, an attacker may
-          still replay a response, making the client believe it sent the same
-          request twice. Therefore, the client SHOULD implement
-          replay protection (e.g., by using sequence numbers and a replay
-          window), unless processing a response does not modify state or cause
-          other any significant side effects. Integrity protection is REQUIRED
-          for replay protection.
-        </t>
+          However, serialized state information is an attractive target
+          for both unwanted nodes (e.g., on-path attackers) and wanted
+          nodes (e.g., any configured forward proxy) on the path.
 
-        <t>
-          If processing a response without keeping request state is sensitive to
-          the time elapsed since sending the request, then the serialized state
-          SHOULD include freshness information (e.g., a timestamp).
-        </t>
+          The serialization format therefore needs to include security
+          measures such as the following:
+          <list style="symbols">
+            <t>
+              A client SHOULD protect the integrity of the state information
+              serialized in a token.
+            </t>
+            <t>
+              Even when the integrity of the serialized state is protected, an
+              attacker may still replay a response, making the client
+              believe it sent the same request twice.
 
-        <t>
-          Information in the serialized state may be privacy sensitive. A client
-          SHOULD encrypt the serialized state if it contains
-          privacy sensitive information that an attacker would not get
-          otherwise.
+              For this reason, the client SHOULD implement replay
+              protection (e.g., by using sequence numbers and a replay
+              window).
+
+              For replay protection, integrity protection is REQUIRED.
+            </t>
+            <t>
+              If processing a response without keeping request state is
+              sensitive to the time elapsed since sending the request, then the
+              client SHOULD include freshness information (e.g., a timestamp) in
+              the serialized state and reject any response where the freshness
+              information is insufficiently fresh.
+            </t>
+            <t>
+              Information in the serialized state may be privacy
+              sensitive.
+
+              A client SHOULD encrypt the serialized state if it
+              contains privacy sensitive information that an attacker
+              would not get otherwise.
+            </t>
+            <t>
+              When a client changes the format of the serialized state,
+              it SHOULD prevent false interoperability with the previous
+              format (e.g., by changing the key used for integrity
+              protection or changing a field in the serialized state).
+            </t>
+          </list>
         </t>
 
       </section>
@@ -539,7 +585,7 @@
         <t>
           A client that depends on
           support for extended token lengths (<xref target="extended-tokens"/>)
-          from the server to avoid keeping request state SHOULD perform a
+          from the server to avoid keeping request state needs to perform a
           discovery of support (<xref target="discovery"/>) before it can be
           stateless.
         </t>
@@ -618,7 +664,7 @@
           exchange state, which can help in the goal of avoiding state. When using
           Confirmable messages, a client needs to keep message exchange
           state for performing retransmissions and handling Acknowledgement and
-          Reset messages, however. Non-confirmable messages are therefore better suited.
+          Reset messages, however. Non-confirmable messages are therefore better suited for avoiding state.
           In any case, a client still needs to keep congestion control state, i.e.,
           maintain state for each node it communicates with and enforce limits
           like NSTART.
@@ -626,26 +672,27 @@
 
         <t>
           As per Section 5.2 of RFC 7252, a client must be prepared to receive a response as a
-          piggybacked response, a separate response or Non-confirmable response,
+          piggybacked response, a separate response, or Non-confirmable response,
           regardless of the message type used for the
           request. A stateless client MUST handle these response types as
           follows:
           <list style="symbols">
             <t>
-              If a piggybacked response passes the token integrity protection
-              and freshness checks, the client processes the message as
-              specified in RFC 7252; otherwise, it silently discards the
-              message.
+              If a piggybacked response passes the checks for token integrity
+              and freshness (<xref target="serialized-state"/>), the client processes the message as
+              specified in RFC 7252; otherwise, it processes the acknowledgement
+              portion of the message as specified in RFC 7252 and silently
+              discards the response portion.
             </t>
             <t>
-              If a separate response passes the token integrity protection and
-              freshness checks, the client processes the message as specified in
+              If a separate response passes the checks for token integrity and
+              freshness, the client processes the message as specified in
               RFC 7252; otherwise, it rejects the message as specified in
               Section 4.2 of RFC 7252.
             </t>
             <t>
-              If a Non-confirmable response passes the token integrity
-              protection and freshness checks, the client processes the message
+              If a Non-confirmable response passes the checks for token
+              integrity and freshness, the client processes the message
               as specified in RFC 7252; otherwise, it rejects the message as
               specified in Section 4.3 of RFC 7252.
             </t>
@@ -677,7 +724,7 @@
 
       <t>
         Such an intermediary can be implemented by serializing the
-        client information along the request state into the token towards the origin server.
+        client information along with the request state into the token towards the origin server.
         When the intermediary receives the response, it can recover
         the client information from the token and use it to satisfy the client's
         request and therefore doesn't need to store it itself.
@@ -736,8 +783,30 @@
           return a 5.04 (Gateway Timeout) response if it cannot obtain a
           response within a timeout. However, if an intermediary does not keep
           the client information for the requests it receives, it cannot return
-          such a response. Therefore, in this case, the timeout should be set to
-          infinite.
+          such a response. Therefore, in this case, the gateway cannot return
+          such a response and as such cannot implement such a timeout.
+        </t>
+
+      </section>
+
+      <section title="Extended Tokens">
+
+        <t>
+          A client may make use of extended token lengths in a request to an
+          intermediary that wants to be "stateless". This means that such an intermediary
+          may have to serialize potentially very large client information into
+          its token towards the origin server. The tokens can grow even further
+          when it progresses along a chain of intermediaries that all want to be
+          "stateless".
+        </t>
+
+        <t>
+          Intermediaries SHOULD limit the size of client information they're
+          serializing into their own tokens. An intermediary can do this, for
+          example, by limiting the extended token lengths it accepts from its
+          clients (see <xref target="discovery"/>) or by keeping the client
+          information locally when the client information exceeds the limit
+          (i.e., not being "stateless").
         </t>
 
       </section>
@@ -772,15 +841,34 @@
           serialized state information in the token has several significant and
           non-obvious security and privacy implications that need to be
           mitigated; see <xref target="serialized-state"/> for recommendations.
+
+          In addition to the format requirements outlined there, implementations
+          need to ensure that they are not vulnerable to maliciously crafted,
+          delayed, or replayed tokens.
         </t>
 
         <t>
-          The use of encryption, integrity protection, and replay protection of
-          serialized state is recommended in general, unless a careful analysis
-          of any potential attacks to security and privacy is performed. AES-CCM
-          with a 64 bit tag is recommended, combined with a sequence number and
-          a replay window. Where encryption is not needed, HMAC-SHA-256,
-          combined with a sequence number and a replay window, may be used.
+          It is generally expected that the use of encryption, integrity
+          protection, and replay protection for serialized state is appropriate.
+
+          In the absence of integrity and reply protection, an on-path attacker
+          or rogue server/intermediary could return a state (either one modified
+          in a reply, or an unsolicited one) that could alter the internal state
+          of the client.
+
+          However, a careful analysis of any potential attacks to the security
+          and privacy properties of the system might reveal that there are cases
+          where such cryptographic protections do not add value in a specific
+          case.
+        </t>
+
+        <t>
+          <xref target="RFC3610">AES-CCM</xref> with a 64-bit tag is
+          RECOMMENDED, combined with a sequence number and a replay window.
+
+          Where encryption is not needed, <xref
+          target="RFC6234">HMAC-SHA-256</xref>, combined with a sequence number
+          and a replay window, may be used.
         </t>
 
         <t>
@@ -788,7 +876,7 @@
           causes the cipher to fail catastrophically. If a nonce is ever used
           for more than one encryption operation with the same key, then the
           same key stream gets used to encrypt both plaintexts and the
-          confidentiality guarantees are voided. Devices with low-entropy
+          confidentiality guarantees are voided. Devices with low-quality entropy
           sources -- as is typical with constrained devices, which incidentally
           happen to be a natural candidate for the stateless mechanism described
           in this document -- need to carefully pick a nonce generation
@@ -855,7 +943,6 @@
     <references title="Normative References">
 
       &RFC2119;
-      &RFC4107;
       &RFC7252;
       &RFC7641;
       &RFC7959;
@@ -866,6 +953,9 @@
 
     <references title="Informative References">
 
+      &RFC3610;
+      &RFC4107;
+      &RFC6234;
       &RFC7228;
 
       &I-D.ietf-core-echo-request-tag;
@@ -882,8 +972,13 @@
     <section title="Updated Message Formats" anchor="message-formats">
 
       <t>
-        This appendix illustrates the CoAP message formats updated with the new
-        definition of the TKL field (<xref target="extended-tokens"/>).
+        In <xref target="extended-tokens"/>, this document updates the
+        CoAP message formats by specifying a new definition of the TKL
+        field in the message header. As an alternative presentation of
+        this update, this appendix shows the CoAP message formats for
+        <xref target="RFC7252">CoAP over UDP</xref> and <xref
+        target="RFC8323">CoAP over TCP, TLS, and WebSockets</xref> with
+        the new definition applied.
       </t>
 
       <section title="CoAP over UDP">
@@ -912,7 +1007,7 @@
               \          (extended)           \
               +-------------------------------+
               \                               \
-              /             Token             /   0 or more bytes
+              /             Token             /   0-65804 bytes
               \                               \
               +-------------------------------+
               \                               \
@@ -939,7 +1034,7 @@
 
       </section>
 
-      <section title="CoAP over TCP">
+      <section title="CoAP over TCP/TLS">
 
 <figure><artwork align="center"><![CDATA[
                 0   1   2   3   4   5   6   7
@@ -949,7 +1044,7 @@
               |               |               |
               +---------------+---------------+
               \                               \
-              /              Len              /   0-2 bytes
+              /              Len              /   0-4 bytes
               \          (extended)           \
               +-------------------------------+
               |                               |
@@ -961,7 +1056,7 @@
               \          (extended)           \
               +-------------------------------+
               \                               \
-              /             Token             /   0 or more bytes
+              /             Token             /   0-65804 bytes
               \                               \
               +-------------------------------+
               \                               \
@@ -1006,7 +1101,7 @@
               \          (extended)           \
               +-------------------------------+
               \                               \
-              /             Token             /   0 or more bytes
+              /             Token             /   0-65804 bytes
               \                               \
               +-------------------------------+
               \                               \
@@ -1052,20 +1147,30 @@
       <!-- sorted by last name -->
       <t>
         Thanks to
-        Christian Ams&uuml;ss,
+        Christian Amsuss,
         Carsten Bormann,
+        Roman Danyliw,
         Christer Holmberg,
+        Benjamin Kaduk,
         Ari Keranen,
-        John Mattsson,
+        Erik Kline,
+        Murray Kucherawy,
+        Warren Kumari,
+        Barry Leiba,
+        David Mandelberg,
+        Dan Romascanu,
         Jim Schaad,
-        G&ouml;ran Selander, and
-        Malisa Vucinic
+        Goran Selander,
+        Malisa Vucinic,
+        Eric Vyncke, and
+        Robert Wilton
         for helpful comments and discussions that have shaped the document.
       </t>
 
       <t>
-        Special thanks to Thomas Fossati for his in-depth review, copious
-        comments, and suggested text.
+        Special thanks to John Mattsson for his contributions to the security
+        considerations of the document, and to Thomas Fossati for his in-depth
+        review, copious comments, and suggested text.
       </t>
 
     </section>
