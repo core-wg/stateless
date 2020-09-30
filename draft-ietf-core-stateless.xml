@@ -850,13 +850,18 @@
 
         <t>
           It is generally expected that the use of encryption, integrity
-          protection, and replay protection for serialized state is appropriate.
+          protection, and replay protection for serialized state is
+          appropriate.
+        </t>
 
+        <t>
           In the absence of integrity and reply protection, an on-path attacker
           or rogue server/intermediary could return a state (either one modified
           in a reply, or an unsolicited one) that could alter the internal state
           of the client.
+        </t>
 
+        <t>
           It is this reason that at least the use of integrity protection on
           the token is always recommended.
         </t>
@@ -864,24 +869,40 @@
         <t>
           It maybe that in some very specific case, as a result of a careful
           and detailed analysis of any potential attacks,  that there may be cases
-          where such cryptographic protections do not add value.  The authors
-          of this document have not found such a use case as yet.
+          where such cryptographic protections do not add value.
+          The authors of this document have not found such a use case as yet, but this
+          is a local decision.
         </t>
 
         <t>
-          <xref target="RFC3610">AES-CCM</xref> with a 64-bit tag is
-          RECOMMENDED, combined with a sequence number and a replay window.
+          It should further be emphasized that the encrypted state is created by the
+          sending node, and decrypted by the same node when receiving a
+          response.
+          The key is not shared with any other system.
+          Therefore the choice of encryption scheme and the generation of the key for
+          this system is purely a local matter.
+        </t>
 
-          Where encryption is not needed, <xref
+        <t>
+          When encryption is used, the use of <xref
+          target="RFC3610">AES-CCM</xref> with a 64-bit tag is RECOMMENDED,
+          combined with a sequence number and a replay window.
+          This choice is informed by available hardware acceleration of on
+          many constrained systems.
+          If a different algorithm is available accelerated on the sender,
+          with similar strength, then it SHOULD be preferred.
+
+          Where privacy of the state is not required, and encryption is not needed, <xref
           target="RFC6234">HMAC-SHA-256</xref>, combined with a sequence number
-          and a replay window, may be used.
+          and a replay window, MAY be used.
         </t>
 
         <t>
           When using an encryption mode that depends on a nonce, such as
           AES-CCM, repeated use of the same nonce under the same key
           causes the cipher to fail catastrophically.
-
+        </t>
+        <t>
           If a nonce is ever used for more than one encryption operation with
           the same key, then the same key stream gets used to encrypt both plaintexts and the
           confidentiality guarantees are voided. Devices with low-quality entropy
@@ -889,12 +910,28 @@
           happen to be a natural candidate for the stateless mechanism described
           in this document -- need to carefully pick a nonce generation
           mechanism that provides the above uniqueness guarantee.
-
-          Additionally, since it can be difficult to use AES-CCM securely when using
-          statically configured keys, implementations should use <xref
-          target="RFC4107">automated key management</xref>.
         </t>
 
+        <t>
+          A node which enters long-term sleeps may find it difficult to
+          maintain the state for a good pseudo-random number generated
+          appropriate for non-repeating nonce generation just for the
+          encryption of this state.
+        </t>
+
+        <t>
+          If a node does not need to accept responses across sleep cycles,
+          then generating a new key for encryption of state during each wake
+          cycle is advised.
+        </t>
+        <t>
+          A node which does need to accept response between sleep cycles will
+          need to maintain the encryption key.  It may be stored into
+          available non-volatile storage once, provided that there is a
+          reliably non-repeating source of nonces, such sourcing from a
+          counter that survives across sleep cycles.  Such a source may be
+          available from the layer-2 network encryption mechanism.
+        </t>
       </section>
 
     </section>
