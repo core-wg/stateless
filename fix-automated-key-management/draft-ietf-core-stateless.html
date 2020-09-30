@@ -158,7 +158,7 @@ svg {
 /* lists */
 ol, ul {
   padding: 0;
-  margin: 0 0 0.5em 2em;
+  margin: 0 0 1em 2em;
 }
 ol ol, ul ul, ol ul, ul ol {
   margin-left: 1em;
@@ -331,7 +331,7 @@ thead+tbody > tr:nth-child(2n+1) > td {
 }
 table caption {
   margin: 0;
-  padding: 3px 0 3px 1em;
+  padding: 3px 1em;
 }
 table p {
   margin: 0;
@@ -819,7 +819,7 @@ address div.right {
   font-size: 0.9em;
 }
 </style>
-
+<link href="rfc-local.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <table class="ears">
@@ -1827,10 +1827,10 @@ address div.right {
           then generating a new key for encryption of state during each wake
           cycle is advised.<a href="#section-5.2-11" class="pilcrow">¶</a></p>
 <p id="section-5.2-12">
-          A node which does need to accept response between sleep cycles will
+          A node which does need to accept responses between sleep cycles will
           need to maintain the encryption key.  It may be stored into
           available non-volatile storage once, provided that there is a
-          reliably non-repeating source of nonces, such sourcing from a
+          reliably non-repeating source of nonces, such as sourcing from a
           counter that survives across sleep cycles.  Such a source may be
           available from the layer-2 network encryption mechanism.<a href="#section-5.2-12" class="pilcrow">¶</a></p>
 </section>
