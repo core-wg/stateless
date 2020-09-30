@@ -841,7 +841,8 @@
           serialized state information in the token has several significant and
           non-obvious security and privacy implications that need to be
           mitigated; see <xref target="serialized-state"/> for recommendations.
-
+        </t>
+        <t>
           In addition to the format requirements outlined there, implementations
           need to ensure that they are not vulnerable to maliciously crafted,
           delayed, or replayed tokens.
@@ -877,16 +878,19 @@
         </t>
 
         <t>
-          When using an encryption mode that depends on a nonce, such as AES-CCM, repeated use of the same nonce under the same key
-          causes the cipher to fail catastrophically. If a nonce is ever used
-          for more than one encryption operation with the same key, then the
-          same key stream gets used to encrypt both plaintexts and the
+          When using an encryption mode that depends on a nonce, such as
+          AES-CCM, repeated use of the same nonce under the same key
+          causes the cipher to fail catastrophically.
+
+          If a nonce is ever used for more than one encryption operation with
+          the same key, then the same key stream gets used to encrypt both plaintexts and the
           confidentiality guarantees are voided. Devices with low-quality entropy
           sources -- as is typical with constrained devices, which incidentally
           happen to be a natural candidate for the stateless mechanism described
           in this document -- need to carefully pick a nonce generation
-          mechanism that provides the above uniqueness guarantee. Additionally,
-          since it can be difficult to use AES-CCM securely when using
+          mechanism that provides the above uniqueness guarantee.
+
+          Additionally, since it can be difficult to use AES-CCM securely when using
           statically configured keys, implementations should use <xref
           target="RFC4107">automated key management</xref>.
         </t>
