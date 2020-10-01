@@ -1,11 +1,12 @@
 language: python
 sudo: false
-dist: trusty
+dist: bionic
 
 addons:
   apt:
     packages:
-     - python-pip
+     - python3-pip
+     - python-is-python3
      - xsltproc
 
 env:
