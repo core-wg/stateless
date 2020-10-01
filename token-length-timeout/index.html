@@ -24,7 +24,7 @@
            class="html draft-ietf-core-stateless">html</a></td>
         <td><a href="./draft-ietf-core-stateless.txt"
            class="txt draft-ietf-core-stateless">plain text</a></td>
-        <td><a href=https://tools.ietf.org/rfcdiff?url1=https://core-wg.github.io/stateless/draft-ietf-core-stateless.txt&amp;url2=https://core-wg.github.io/stateless/token-length-timeout/draft-ietf-core-stateless.txt>diff with HEAD</a></td>
+        <td><a href=https://tools.ietf.org/rfcdiff?url1=https://core-wg.github.io/stateless/draft-ietf-core-stateless.txt&amp;url2=https://core-wg.github.io/stateless/token-length-timeout/draft-ietf-core-stateless.txt>diff with master</a></td>
         <td><a href="https://tools.ietf.org/rfcdiff?url1=https://tools.ietf.org/id/draft-ietf-core-stateless.txt&amp;url2=https://core-wg.github.io/stateless/token-length-timeout/draft-ietf-core-stateless.txt" class="diff draft-ietf-core-stateless">
           diff with last submission</a></td>
       </tr>
@@ -35,8 +35,8 @@
 //  http://creativecommons.org/publicdomain/zero/1.0/
 // @licend
 window.onload = function() {
-  var referrer_branch = 'HEAD';
-  // e.g., "https://github.com/user/repo/tree/HEAD"
+  var referrer_branch = 'master';
+  // e.g., "https://github.com/user/repo/tree/master"
   var chunks = document.referrer.split("/");
   if (chunks[2] === 'github.com' && chunks[5] === 'tree') {
     referrer_branch = chunks[6];
