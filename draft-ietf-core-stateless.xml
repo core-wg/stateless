@@ -856,10 +856,15 @@
           in a reply, or an unsolicited one) that could alter the internal state
           of the client.
 
-          However, a careful analysis of any potential attacks to the security
-          and privacy properties of the system might reveal that there are cases
-          where such cryptographic protections do not add value in a specific
-          case.
+          It is this reason that at least the use of integrity protection on
+          the token is always recommended.
+        </t>
+
+        <t>
+          It maybe that in some very specific case, as a result of a careful
+          and detailed analysis of any potential attacks,  that there may be cases
+          where such cryptographic protections do not add value.  The authors
+          of this document have not found such a use case as yet.
         </t>
 
         <t>
