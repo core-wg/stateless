@@ -821,13 +821,13 @@ Internet-Draft  Extended Tokens and Stateless Clients in    October 2020
    this system is purely a local matter.
 
    When encryption is used, the use of AES-CCM [RFC3610] with a 64-bit
-   tag is RECOMMENDED, combined with a sequence number and a replay
+   tag is recommended, combined with a sequence number and a replay
    window.  This choice is informed by available hardware acceleration
    of on many constrained systems.  If a different algorithm is
    available accelerated on the sender, with similar strength, then it
    SHOULD be preferred.  Where privacy of the state is not required, and
    encryption is not needed, HMAC-SHA-256 [RFC6234], combined with a
-   sequence number and a replay window, MAY be used.
+   sequence number and a replay window, may be used.
 
    When using an encryption mode that depends on a nonce, such as AES-
    CCM, repeated use of the same nonce under the same key causes the
