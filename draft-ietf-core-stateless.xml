@@ -898,6 +898,30 @@
         </t>
 
         <t>
+          This size of the replay window depends upon the number of
+          outstanding requests that need to be outstanding.  This can be
+          determined from the rate at which new ones are made, and the
+          expected duration in which responses are expected.
+        </t>
+
+        <t>
+          For instance, given a CoAP ACK_TIMEOUT of 2s, and a request rate of
+          10 requests/second, any request that is not answered within 2s will
+          be considered to have failed.  Thus at most 20 request can be
+          outstanding at a time, and any convenient replay window larger than
+          20 will work.  As replay windows are often implemented with a
+          sliding window and a bit, the use of a 32-bit window would be
+          sufficient.
+        </t>
+        <t>
+          For use cases where requests are being relayed from another node,
+          the request rate may be estimated by the total link capacity
+          allocated for that kind of traffic.  An alternate view would
+          consider how many IPv6 Neighbor Cache Entries (NCEs) the system can
+          afford to allocate for this use.
+       </t>
+
+        <t>
           When using an encryption mode that depends on a nonce, such as
           AES-CCM, repeated use of the same nonce under the same key
           causes the cipher to fail catastrophically.
