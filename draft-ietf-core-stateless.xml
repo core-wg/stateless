@@ -885,7 +885,7 @@
 
         <t>
           When encryption is used, the use of <xref
-          target="RFC3610">AES-CCM</xref> with a 64-bit tag is RECOMMENDED,
+          target="RFC3610">AES-CCM</xref> with a 64-bit tag is recommended,
           combined with a sequence number and a replay window.
           This choice is informed by available hardware acceleration of on
           many constrained systems.
