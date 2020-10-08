@@ -801,10 +801,14 @@ Internet-Draft  Extended Tokens and Stateless Clients in    October 2020
    appropriate.  In the absence of integrity and reply protection, an
    on-path attacker or rogue server/intermediary could return a state
    (either one modified in a reply, or an unsolicited one) that could
-   alter the internal state of the client.  However, a careful analysis
-   of any potential attacks to the security and privacy properties of
-   the system might reveal that there are cases where such cryptographic
-   protections do not add value in a specific case.
+   alter the internal state of the client.  It is this reason that at
+   least the use of integrity protection on the token is always
+   recommended.
+
+   It maybe that in some very specific case, as a result of a careful
+   and detailed analysis of any potential attacks, that there may be
+   cases where such cryptographic protections do not add value.  The
+   authors of this document have not found such a use case as yet.
 
    AES-CCM [RFC3610] with a 64-bit tag is RECOMMENDED, combined with a
    sequence number and a replay window.  Where encryption is not needed,
@@ -830,10 +834,6 @@ Internet-Draft  Extended Tokens and Stateless Clients in    October 2020
 
    The following entries are added to the "CoAP Signaling Option
    Numbers" registry within the "CoRE Parameters" registry.
-
-
-
-
 
 
 
