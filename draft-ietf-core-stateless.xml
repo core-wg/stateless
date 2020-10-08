@@ -894,7 +894,7 @@
 
           Where privacy of the state is not required, and encryption is not needed, <xref
           target="RFC6234">HMAC-SHA-256</xref>, combined with a sequence number
-          and a replay window, MAY be used.
+          and a replay window, may be used.
         </t>
 
         <t>
