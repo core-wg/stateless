@@ -4,9 +4,9 @@
 
 CoRE Working Group                                             K. Hartke
 Internet-Draft                                                  Ericsson
-Updates: 7252, 8323 (if approved)                         8 October 2020
+Updates: 7252, 8323 (if approved)                         9 October 2020
 Intended status: Standards Track                                        
-Expires: 11 April 2021
+Expires: 12 April 2021
 
 
                  Extended Tokens and Stateless Clients
@@ -38,7 +38,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 11 April 2021.
+   This Internet-Draft will expire on 12 April 2021.
 
 Copyright Notice
 
@@ -53,9 +53,9 @@ Copyright Notice
 
 
 
-Hartke                    Expires 11 April 2021                 [Page 1]
+Hartke                    Expires 12 April 2021                 [Page 1]
 
-Internet-Draft  Extended Tokens and Stateless Clients in    October 2020
+Internet-Draft           Extended Tokens in CoAP            October 2020
 
 
    extracted from this document must include Simplified BSD License text
@@ -109,9 +109,9 @@ Table of Contents
 
 
 
-Hartke                    Expires 11 April 2021                 [Page 2]
+Hartke                    Expires 12 April 2021                 [Page 2]
 
-Internet-Draft  Extended Tokens and Stateless Clients in    October 2020
+Internet-Draft           Extended Tokens in CoAP            October 2020
 
 
    While a request is ongoing, a client typically needs to keep some
@@ -165,9 +165,9 @@ Internet-Draft  Extended Tokens and Stateless Clients in    October 2020
 
 
 
-Hartke                    Expires 11 April 2021                 [Page 3]
+Hartke                    Expires 12 April 2021                 [Page 3]
 
-Internet-Draft  Extended Tokens and Stateless Clients in    October 2020
+Internet-Draft           Extended Tokens in CoAP            October 2020
 
 
    maintain per-server state and other kinds of state.  So it would be
@@ -221,9 +221,9 @@ Internet-Draft  Extended Tokens and Stateless Clients in    October 2020
 
 
 
-Hartke                    Expires 11 April 2021                 [Page 4]
+Hartke                    Expires 12 April 2021                 [Page 4]
 
-Internet-Draft  Extended Tokens and Stateless Clients in    October 2020
+Internet-Draft           Extended Tokens in CoAP            October 2020
 
 
       12 inclusive indicates the length of the variable-length Token
@@ -277,9 +277,9 @@ Internet-Draft  Extended Tokens and Stateless Clients in    October 2020
 
 
 
-Hartke                    Expires 11 April 2021                 [Page 5]
+Hartke                    Expires 12 April 2021                 [Page 5]
 
-Internet-Draft  Extended Tokens and Stateless Clients in    October 2020
+Internet-Draft           Extended Tokens in CoAP            October 2020
 
 
    +===+=+=+=========+=======================+========+========+=======+
@@ -333,9 +333,9 @@ Internet-Draft  Extended Tokens and Stateless Clients in    October 2020
 
 
 
-Hartke                    Expires 11 April 2021                 [Page 6]
+Hartke                    Expires 12 April 2021                 [Page 6]
 
-Internet-Draft  Extended Tokens and Stateless Clients in    October 2020
+Internet-Draft           Extended Tokens in CoAP            October 2020
 
 
 2.2.2.  Trial-and-Error
@@ -389,9 +389,9 @@ Internet-Draft  Extended Tokens and Stateless Clients in    October 2020
 
 
 
-Hartke                    Expires 11 April 2021                 [Page 7]
+Hartke                    Expires 12 April 2021                 [Page 7]
 
-Internet-Draft  Extended Tokens and Stateless Clients in    October 2020
+Internet-Draft           Extended Tokens in CoAP            October 2020
 
 
    Since network addresses may change, a client SHOULD NOT assume that
@@ -445,9 +445,9 @@ Internet-Draft  Extended Tokens and Stateless Clients in    October 2020
 
 
 
-Hartke                    Expires 11 April 2021                 [Page 8]
+Hartke                    Expires 12 April 2021                 [Page 8]
 
-Internet-Draft  Extended Tokens and Stateless Clients in    October 2020
+Internet-Draft           Extended Tokens in CoAP            October 2020
 
 
 3.  Stateless Clients
@@ -501,9 +501,9 @@ Internet-Draft  Extended Tokens and Stateless Clients in    October 2020
 
 
 
-Hartke                    Expires 11 April 2021                 [Page 9]
+Hartke                    Expires 12 April 2021                 [Page 9]
 
-Internet-Draft  Extended Tokens and Stateless Clients in    October 2020
+Internet-Draft           Extended Tokens in CoAP            October 2020
 
 
    *  Information in the serialized state may be privacy sensitive.  A
@@ -557,9 +557,9 @@ Internet-Draft  Extended Tokens and Stateless Clients in    October 2020
 
 
 
-Hartke                    Expires 11 April 2021                [Page 10]
+Hartke                    Expires 12 April 2021                [Page 10]
 
-Internet-Draft  Extended Tokens and Stateless Clients in    October 2020
+Internet-Draft           Extended Tokens in CoAP            October 2020
 
 
           +-----------------+    dummy request     +------------+
@@ -613,9 +613,9 @@ Internet-Draft  Extended Tokens and Stateless Clients in    October 2020
 
 
 
-Hartke                    Expires 11 April 2021                [Page 11]
+Hartke                    Expires 12 April 2021                [Page 11]
 
-Internet-Draft  Extended Tokens and Stateless Clients in    October 2020
+Internet-Draft           Extended Tokens in CoAP            October 2020
 
 
    In environments where support can be reliably discovered through some
@@ -669,9 +669,9 @@ Internet-Draft  Extended Tokens and Stateless Clients in    October 2020
 
 
 
-Hartke                    Expires 11 April 2021                [Page 12]
+Hartke                    Expires 12 April 2021                [Page 12]
 
-Internet-Draft  Extended Tokens and Stateless Clients in    October 2020
+Internet-Draft           Extended Tokens in CoAP            October 2020
 
 
 4.  Stateless Intermediaries
@@ -725,9 +725,9 @@ Internet-Draft  Extended Tokens and Stateless Clients in    October 2020
 
 
 
-Hartke                    Expires 11 April 2021                [Page 13]
+Hartke                    Expires 12 April 2021                [Page 13]
 
-Internet-Draft  Extended Tokens and Stateless Clients in    October 2020
+Internet-Draft           Extended Tokens in CoAP            October 2020
 
 
 4.2.  Block-Wise Transfers
@@ -781,9 +781,9 @@ Internet-Draft  Extended Tokens and Stateless Clients in    October 2020
 
 
 
-Hartke                    Expires 11 April 2021                [Page 14]
+Hartke                    Expires 12 April 2021                [Page 14]
 
-Internet-Draft  Extended Tokens and Stateless Clients in    October 2020
+Internet-Draft           Extended Tokens in CoAP            October 2020
 
 
 5.2.  Stateless Clients and Intermediaries
@@ -837,9 +837,9 @@ Internet-Draft  Extended Tokens and Stateless Clients in    October 2020
 
 
 
-Hartke                    Expires 11 April 2021                [Page 15]
+Hartke                    Expires 12 April 2021                [Page 15]
 
-Internet-Draft  Extended Tokens and Stateless Clients in    October 2020
+Internet-Draft           Extended Tokens in CoAP            October 2020
 
 
     +============+========+=======================+===================+
@@ -893,9 +893,9 @@ Internet-Draft  Extended Tokens and Stateless Clients in    October 2020
 
 
 
-Hartke                    Expires 11 April 2021                [Page 16]
+Hartke                    Expires 12 April 2021                [Page 16]
 
-Internet-Draft  Extended Tokens and Stateless Clients in    October 2020
+Internet-Draft           Extended Tokens in CoAP            October 2020
 
 
    [I-D.ietf-6tisch-minimal-security]
@@ -949,9 +949,9 @@ A.1.  CoAP over UDP
 
 
 
-Hartke                    Expires 11 April 2021                [Page 17]
+Hartke                    Expires 12 April 2021                [Page 17]
 
-Internet-Draft  Extended Tokens and Stateless Clients in    October 2020
+Internet-Draft           Extended Tokens in CoAP            October 2020
 
 
                    0   1   2   3   4   5   6   7
@@ -1005,9 +1005,9 @@ Internet-Draft  Extended Tokens and Stateless Clients in    October 2020
 
 
 
-Hartke                    Expires 11 April 2021                [Page 18]
+Hartke                    Expires 12 April 2021                [Page 18]
 
-Internet-Draft  Extended Tokens and Stateless Clients in    October 2020
+Internet-Draft           Extended Tokens in CoAP            October 2020
 
 
 A.2.  CoAP over TCP/TLS
@@ -1061,9 +1061,9 @@ A.3.  CoAP over WebSockets
 
 
 
-Hartke                    Expires 11 April 2021                [Page 19]
+Hartke                    Expires 12 April 2021                [Page 19]
 
-Internet-Draft  Extended Tokens and Stateless Clients in    October 2020
+Internet-Draft           Extended Tokens in CoAP            October 2020
 
 
                    0   1   2   3   4   5   6   7
@@ -1117,9 +1117,9 @@ Acknowledgements
 
 
 
-Hartke                    Expires 11 April 2021                [Page 20]
+Hartke                    Expires 12 April 2021                [Page 20]
 
-Internet-Draft  Extended Tokens and Stateless Clients in    October 2020
+Internet-Draft           Extended Tokens in CoAP            October 2020
 
 
    Schaad, Goran Selander, Malisa Vucinic, Eric Vyncke, and Robert
@@ -1173,4 +1173,4 @@ Author's Address
 
 
 
-Hartke                    Expires 11 April 2021                [Page 21]
+Hartke                    Expires 12 April 2021                [Page 21]
