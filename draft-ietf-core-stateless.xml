@@ -417,10 +417,13 @@
           </t>
 
           <t>
-            Since network addresses may change,
-            a client SHOULD NOT assume that extended token lengths are supported
-            by a server later than 60 minutes after receiving the most-recent response with an extended
-            token length.
+            Since network addresses may change, a client SHOULD NOT assume that extended token
+            lengths are supported by a server for an unlimited duration.
+            Unless additional information is available, the client should assume that addresses (and therefore extended token lengths) are valid for a minimum of 1800s, and for a maximum of 86400s (1 day).
+            A client may use additional forms of input into this determination.
+            For instance a client may assume a server which is in the same subnet as the client has a similiar address lifetime as the client.
+            The client may use DHCP lease times or Router Advertisements to set the limits.
+            For servers which is not local, if the server was looked up using DNS, then the DNS resource record will have a Time To Live, and the extended token length should be kept for only that amount of time.
           </t>
 
           <t>
