@@ -4,9 +4,9 @@
 
 CoRE Working Group                                             K. Hartke
 Internet-Draft                                                  Ericsson
-Updates: 7252, 8323 (if approved)                         9 October 2020
+Updates: 7252, 8323 (if approved)                        20 October 2020
 Intended status: Standards Track                                        
-Expires: 12 April 2021
+Expires: 23 April 2021
 
 
                  Extended Tokens and Stateless Clients
@@ -38,7 +38,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 12 April 2021.
+   This Internet-Draft will expire on 23 April 2021.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Hartke                    Expires 12 April 2021                 [Page 1]
+Hartke                    Expires 23 April 2021                 [Page 1]
 
 Internet-Draft           Extended Tokens in CoAP            October 2020
 
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Hartke                    Expires 12 April 2021                 [Page 2]
+Hartke                    Expires 23 April 2021                 [Page 2]
 
 Internet-Draft           Extended Tokens in CoAP            October 2020
 
@@ -165,7 +165,7 @@ Internet-Draft           Extended Tokens in CoAP            October 2020
 
 
 
-Hartke                    Expires 12 April 2021                 [Page 3]
+Hartke                    Expires 23 April 2021                 [Page 3]
 
 Internet-Draft           Extended Tokens in CoAP            October 2020
 
@@ -221,7 +221,7 @@ Internet-Draft           Extended Tokens in CoAP            October 2020
 
 
 
-Hartke                    Expires 12 April 2021                 [Page 4]
+Hartke                    Expires 23 April 2021                 [Page 4]
 
 Internet-Draft           Extended Tokens in CoAP            October 2020
 
@@ -277,7 +277,7 @@ Internet-Draft           Extended Tokens in CoAP            October 2020
 
 
 
-Hartke                    Expires 12 April 2021                 [Page 5]
+Hartke                    Expires 23 April 2021                 [Page 5]
 
 Internet-Draft           Extended Tokens in CoAP            October 2020
 
@@ -333,7 +333,7 @@ Internet-Draft           Extended Tokens in CoAP            October 2020
 
 
 
-Hartke                    Expires 12 April 2021                 [Page 6]
+Hartke                    Expires 23 April 2021                 [Page 6]
 
 Internet-Draft           Extended Tokens in CoAP            October 2020
 
@@ -389,15 +389,24 @@ Internet-Draft           Extended Tokens in CoAP            October 2020
 
 
 
-Hartke                    Expires 12 April 2021                 [Page 7]
+Hartke                    Expires 23 April 2021                 [Page 7]
 
 Internet-Draft           Extended Tokens in CoAP            October 2020
 
 
    Since network addresses may change, a client SHOULD NOT assume that
-   extended token lengths are supported by a server later than 60
-   minutes after receiving the most-recent response with an extended
-   token length.
+   extended token lengths are supported by a server for an unlimited
+   duration.  Unless additional information is available, the client
+   should assume that addresses (and therefore extended token lengths)
+   are valid for a minimum of 1800s, and for a maximum of 86400s (1
+   day).  A client may use additional forms of input into this
+   determination.  For instance a client may assume a server which is in
+   the same subnet as the client has a similiar address lifetime as the
+   client.  The client may use DHCP lease times or Router Advertisements
+   to set the limits.  For servers which is not local, if the server was
+   looked up using DNS, then the DNS resource record will have a Time To
+   Live, and the extended token length should be kept for only that
+   amount of time.
 
    If a server supports extended token lengths but receives a request
    with a token of a length it is unwilling or unable to handle, it MUST
@@ -433,6 +442,14 @@ Internet-Draft           Extended Tokens in CoAP            October 2020
    to the exchange between a node in the client role and the node in the
    server role that it is immediately interacting with.
 
+
+
+
+Hartke                    Expires 23 April 2021                 [Page 8]
+
+Internet-Draft           Extended Tokens in CoAP            October 2020
+
+
    When an intermediary receives a request, the only requirement is that
    it echoes the token back in any resulting response.  There is no
    requirement or expectation that an intermediary passes a client's
@@ -440,15 +457,6 @@ Internet-Draft           Extended Tokens in CoAP            October 2020
    lengths itself in its request to satisfy a request with an extended
    token length.  Discovery needs to be performed for each hop where
    extended token lengths are to be used.
-
-
-
-
-
-Hartke                    Expires 12 April 2021                 [Page 8]
-
-Internet-Draft           Extended Tokens in CoAP            October 2020
-
 
 3.  Stateless Clients
 
@@ -490,21 +498,19 @@ Internet-Draft           Extended Tokens in CoAP            October 2020
       replay window).  For replay protection, integrity protection is
       REQUIRED.
 
+
+
+
+Hartke                    Expires 23 April 2021                 [Page 9]
+
+Internet-Draft           Extended Tokens in CoAP            October 2020
+
+
    *  If processing a response without keeping request state is
       sensitive to the time elapsed since sending the request, then the
       client SHOULD include freshness information (e.g., a timestamp) in
       the serialized state and reject any response where the freshness
       information is insufficiently fresh.
-
-
-
-
-
-
-Hartke                    Expires 12 April 2021                 [Page 9]
-
-Internet-Draft           Extended Tokens in CoAP            October 2020
-
 
    *  Information in the serialized state may be privacy sensitive.  A
       client SHOULD encrypt the serialized state if it contains privacy
@@ -551,13 +557,7 @@ Internet-Draft           Extended Tokens in CoAP            October 2020
 
 
 
-
-
-
-
-
-
-Hartke                    Expires 12 April 2021                [Page 10]
+Hartke                    Expires 23 April 2021                [Page 10]
 
 Internet-Draft           Extended Tokens in CoAP            October 2020
 
@@ -613,7 +613,7 @@ Internet-Draft           Extended Tokens in CoAP            October 2020
 
 
 
-Hartke                    Expires 12 April 2021                [Page 11]
+Hartke                    Expires 23 April 2021                [Page 11]
 
 Internet-Draft           Extended Tokens in CoAP            October 2020
 
@@ -669,7 +669,7 @@ Internet-Draft           Extended Tokens in CoAP            October 2020
 
 
 
-Hartke                    Expires 12 April 2021                [Page 12]
+Hartke                    Expires 23 April 2021                [Page 12]
 
 Internet-Draft           Extended Tokens in CoAP            October 2020
 
@@ -725,7 +725,7 @@ Internet-Draft           Extended Tokens in CoAP            October 2020
 
 
 
-Hartke                    Expires 12 April 2021                [Page 13]
+Hartke                    Expires 23 April 2021                [Page 13]
 
 Internet-Draft           Extended Tokens in CoAP            October 2020
 
@@ -781,7 +781,7 @@ Internet-Draft           Extended Tokens in CoAP            October 2020
 
 
 
-Hartke                    Expires 12 April 2021                [Page 14]
+Hartke                    Expires 23 April 2021                [Page 14]
 
 Internet-Draft           Extended Tokens in CoAP            October 2020
 
@@ -837,7 +837,7 @@ Internet-Draft           Extended Tokens in CoAP            October 2020
 
 
 
-Hartke                    Expires 12 April 2021                [Page 15]
+Hartke                    Expires 23 April 2021                [Page 15]
 
 Internet-Draft           Extended Tokens in CoAP            October 2020
 
@@ -893,7 +893,7 @@ Internet-Draft           Extended Tokens in CoAP            October 2020
 
 
 
-Hartke                    Expires 12 April 2021                [Page 16]
+Hartke                    Expires 23 April 2021                [Page 16]
 
 Internet-Draft           Extended Tokens in CoAP            October 2020
 
@@ -949,7 +949,7 @@ A.1.  CoAP over UDP
 
 
 
-Hartke                    Expires 12 April 2021                [Page 17]
+Hartke                    Expires 23 April 2021                [Page 17]
 
 Internet-Draft           Extended Tokens in CoAP            October 2020
 
@@ -1005,7 +1005,7 @@ Internet-Draft           Extended Tokens in CoAP            October 2020
 
 
 
-Hartke                    Expires 12 April 2021                [Page 18]
+Hartke                    Expires 23 April 2021                [Page 18]
 
 Internet-Draft           Extended Tokens in CoAP            October 2020
 
@@ -1061,7 +1061,7 @@ A.3.  CoAP over WebSockets
 
 
 
-Hartke                    Expires 12 April 2021                [Page 19]
+Hartke                    Expires 23 April 2021                [Page 19]
 
 Internet-Draft           Extended Tokens in CoAP            October 2020
 
@@ -1117,7 +1117,7 @@ Acknowledgements
 
 
 
-Hartke                    Expires 12 April 2021                [Page 20]
+Hartke                    Expires 23 April 2021                [Page 20]
 
 Internet-Draft           Extended Tokens in CoAP            October 2020
 
@@ -1173,4 +1173,4 @@ Author's Address
 
 
 
-Hartke                    Expires 12 April 2021                [Page 21]
+Hartke                    Expires 23 April 2021                [Page 21]
