@@ -844,7 +844,8 @@
           serialized state information in the token has several significant and
           non-obvious security and privacy implications that need to be
           mitigated; see <xref target="serialized-state"/> for recommendations.
-
+        </t>
+        <t>
           In addition to the format requirements outlined there, implementations
           need to ensure that they are not vulnerable to maliciously crafted,
           delayed, or replayed tokens.
@@ -852,13 +853,18 @@
 
         <t>
           It is generally expected that the use of encryption, integrity
-          protection, and replay protection for serialized state is appropriate.
+          protection, and replay protection for serialized state is
+          appropriate.
+        </t>
 
+        <t>
           In the absence of integrity and reply protection, an on-path attacker
           or rogue server/intermediary could return a state (either one modified
           in a reply, or an unsolicited one) that could alter the internal state
           of the client.
+        </t>
 
+        <t>
           It is this reason that at least the use of integrity protection on
           the token is always recommended.
         </t>
@@ -866,34 +872,78 @@
         <t>
           It maybe that in some very specific case, as a result of a careful
           and detailed analysis of any potential attacks,  that there may be cases
-          where such cryptographic protections do not add value.  The authors
-          of this document have not found such a use case as yet.
+          where such cryptographic protections do not add value.
+          The authors of this document have not found such a use case as yet, but this
+          is a local decision.
         </t>
 
         <t>
-          <xref target="RFC3610">AES-CCM</xref> with a 64-bit tag is
-          RECOMMENDED, combined with a sequence number and a replay window.
+          It should further be emphasized that the encrypted state is created by the
+          sending node, and decrypted by the same node when receiving a
+          response.
+          The key is not shared with any other system.
+          Therefore the choice of encryption scheme and the generation of the key for
+          this system is purely a local matter.
+        </t>
 
-          Where encryption is not needed, <xref
+        <t>
+          When encryption is used, the use of <xref
+          target="RFC3610">AES-CCM</xref> with a 64-bit tag is recommended,
+          combined with a sequence number and a replay window.
+          This choice is informed by available hardware acceleration of on
+          many constrained systems.
+          If a different algorithm is available accelerated on the sender,
+          with similar strength, then it SHOULD be preferred.
+
+          Where privacy of the state is not required, and encryption is not needed, <xref
           target="RFC6234">HMAC-SHA-256</xref>, combined with a sequence number
           and a replay window, may be used.
         </t>
 
         <t>
-          When using an encryption mode that depends on a nonce, such as AES-CCM, repeated use of the same nonce under the same key
-          causes the cipher to fail catastrophically. If a nonce is ever used
-          for more than one encryption operation with the same key, then the
-          same key stream gets used to encrypt both plaintexts and the
+          This size of the replay window depends upon the number of
+          outstanding requests that need to be outstanding.  This can be
+          determined from the rate at which new ones are made, and the
+          expected duration in which responses are expected.
+        </t>
+
+        <t>
+          For instance, given a CoAP ACK_TIMEOUT of 2s, and a request rate of
+          10 requests/second, any request that is not answered within 2s will
+          be considered to have failed.  Thus at most 20 request can be
+          outstanding at a time, and any convenient replay window larger than
+          20 will work.  As replay windows are often implemented with a
+          sliding window and a bit, the use of a 32-bit window would be
+          sufficient.
+        </t>
+        <t>
+          For use cases where requests are being relayed from another node,
+          the request rate may be estimated by the total link capacity
+          allocated for that kind of traffic.  An alternate view would
+          consider how many IPv6 Neighbor Cache Entries (NCEs) the system can
+          afford to allocate for this use.
+       </t>
+
+        <t>
+          When using an encryption mode that depends on a nonce, such as
+          AES-CCM, repeated use of the same nonce under the same key
+          causes the cipher to fail catastrophically.
+        </t>
+        <t>
+          If a nonce is ever used for more than one encryption operation with
+          the same key, then the same key stream gets used to encrypt both plaintexts and the
           confidentiality guarantees are voided. Devices with low-quality entropy
           sources -- as is typical with constrained devices, which incidentally
           happen to be a natural candidate for the stateless mechanism described
           in this document -- need to carefully pick a nonce generation
-          mechanism that provides the above uniqueness guarantee. Additionally,
-          since it can be difficult to use AES-CCM securely when using
-          statically configured keys, implementations should use <xref
-          target="RFC4107">automated key management</xref>.
+          mechanism that provides the above uniqueness guarantee.
         </t>
 
+        <t>
+          <xref target="RFC8613" /> appendix B.1.1 ("Sender Sequence Number")
+          provides a model for how to maintain non-repeating nonces without
+          causing excessive wear of flash.
+        </t>
       </section>
 
     </section>
@@ -962,9 +1012,9 @@
     <references title="Informative References">
 
       &RFC3610;
-      &RFC4107;
       &RFC6234;
       &RFC7228;
+      <?rfc include="reference.RFC.8613" ?>
 
       &I-D.ietf-core-echo-request-tag;
 
