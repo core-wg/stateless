@@ -921,8 +921,8 @@
 
         <t>
           For instance, given a CoAP MAX_TRANSMIT_WAIT of 93 s, and a request rate of
-          0.1 requests/second, any request that is not answered within 93 s will
-          be considered to have failed.  Thus at most 10 requests can be
+          one request per 10 s, any request that is not answered within 93 s will
+          be considered to have failed.  Thus at most 10 (ceil(9.3)) requests can be
           outstanding at a time, and any convenient replay window larger than
           20 will work.  As replay windows are often implemented with a
           sliding window and a bit, the use of a 32-bit window would be
