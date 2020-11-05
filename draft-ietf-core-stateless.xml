@@ -72,7 +72,7 @@
       </t>
 
       <t>
-        This document updates RFCs 7252 and 8323 with a new definition of the
+        This document updates RFCs 7252 and 8323 with an extended definition of the
         TKL field in the CoAP message header.
       </t>
 
@@ -431,11 +431,11 @@
           <t>
             Since network addresses may change, a client SHOULD NOT assume that extended token
             lengths are supported by a server for an unlimited duration.
-            Unless additional information is available, the client should assume that addresses (and therefore extended token lengths) are valid for a minimum of 1800s, and for a maximum of 86400s (1 day).
+            Unless additional information is available, the client should assume that addresses (and therefore extended token lengths) are valid for a minimum of 1800 s, and for a maximum of 86400 s (1 day).
             A client may use additional forms of input into this determination.
-            For instance a client may assume a server which is in the same subnet as the client has a similiar address lifetime as the client.
+            For instance a client may assume a server which is in the same subnet as the client has a similar address lifetime as the client.
             The client may use DHCP lease times or Router Advertisements to set the limits.
-            For servers which is not local, if the server was looked up using DNS, then the DNS resource record will have a Time To Live, and the extended token length should be kept for only that amount of time.
+            For servers that are not local, if the server was looked up using DNS, then the DNS resource record will have a Time To Live, and the extended token length should be kept for only that amount of time.
           </t>
 
           <t>
@@ -816,7 +816,7 @@
         </t>
 
         <t>
-          Intermediaries SHOULD limit the size of client information they're
+          Intermediaries SHOULD limit the size of client information they are
           serializing into their own tokens. An intermediary can do this, for
           example, by limiting the extended token lengths it accepts from its
           clients (see <xref target="discovery"/>) or by keeping the client
@@ -870,14 +870,14 @@
         </t>
 
         <t>
-          In the absence of integrity and reply protection, an on-path attacker
+          In the absence of integrity and replay protection, an on-path attacker
           or rogue server/intermediary could return a state (either one modified
           in a reply, or an unsolicited one) that could alter the internal state
           of the client.
         </t>
 
         <t>
-          It is this reason that at least the use of integrity protection on
+          It is for this reason that at least the use of integrity protection on
           the token is always recommended.
         </t>
 
@@ -914,15 +914,15 @@
 
         <t>
           This size of the replay window depends upon the number of
-          outstanding requests that need to be outstanding.  This can be
+          requests that need to be outstanding.  This can be
           determined from the rate at which new ones are made, and the
           expected duration in which responses are expected.
         </t>
 
         <t>
-          For instance, given a CoAP ACK_TIMEOUT of 2s, and a request rate of
-          10 requests/second, any request that is not answered within 2s will
-          be considered to have failed.  Thus at most 20 request can be
+          For instance, given a CoAP MAX_TRANSMIT_WAIT of 93 s (Section 4.8.2 of <xref target="RFC7252"/>, any request that is not answered within 93 s will
+          be considered to have failed.  At a request rate of
+          one request per 10 s, at most 10 (ceil(9.3)) requests can be
           outstanding at a time, and any convenient replay window larger than
           20 will work.  As replay windows are often implemented with a
           sliding window and a bit, the use of a 32-bit window would be
@@ -954,7 +954,7 @@
         <t>
           <xref target="RFC8613" /> appendix B.1.1 ("Sender Sequence Number")
           provides a model for how to maintain non-repeating nonces without
-          causing excessive wear of flash.
+          causing excessive wear of flash memory.
         </t>
       </section>
 
